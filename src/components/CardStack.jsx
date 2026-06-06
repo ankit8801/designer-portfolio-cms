@@ -1,6 +1,7 @@
 import * as React from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ProtectedImage } from "./ui/ProtectedImage";
 
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -224,7 +225,7 @@ function DefaultFanCard({ item, active }) {
     <div className="relative h-full w-full group">
       <div className="absolute inset-0">
         {item.thumbnail ? (
-          <img src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" draggable={false} loading="eager" />
+          <ProtectedImage src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" draggable={false} loading="eager" />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-background text-sm text-white/50">
             <span className="material-symbols-outlined text-6xl text-accent/20">palette</span>

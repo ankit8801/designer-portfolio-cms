@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play } from 'lucide-react';
+import { ProtectedImage } from '../ui/ProtectedImage';
 
 const MediaItem = ({ item, className, onClick }) => {
   const videoRef = useRef(null);
@@ -107,7 +108,7 @@ const MediaItem = ({ item, className, onClick }) => {
   }
 
   return (
-    <img
+    <ProtectedImage
       src={item.url}
       alt={item.title}
       className={`${className} object-cover cursor-pointer`}

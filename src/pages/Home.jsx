@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import React, { useState, useEffect, useRef } from 'react'
 import { fetchProjects } from '../firebase/services/projectService'
 import { getSettings } from '../firebase/services/settingsService'
+import { ProtectedImage } from '../components/ui/ProtectedImage'
 
 const DISCIPLINES = [
   'Brand Identity', 'UI/UX Design', 'Packaging', 'Logo Systems',
@@ -74,7 +75,7 @@ export default function Home() {
               transition={{ duration: 1.5 }}
               className="absolute inset-0"
             >
-              <img src={settings.homeHero} alt="Hero Background" className="w-full h-full object-cover mix-blend-luminosity" />
+              <ProtectedImage src={settings.homeHero} alt="Hero Background" className="w-full h-full object-cover mix-blend-luminosity" />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
             </motion.div>
@@ -195,7 +196,7 @@ export default function Home() {
                   className="group relative block w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-white/10"
                 >
                   {heroProject.thumbnail ? (
-                    <img src={heroProject.thumbnail} alt={heroProject.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" loading="lazy" />
+                    <ProtectedImage src={heroProject.thumbnail} alt={heroProject.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" loading="lazy" />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-card-bg to-surface-high flex items-center justify-center">
                       <span className="material-symbols-outlined text-6xl text-accent/20">palette</span>
@@ -276,7 +277,7 @@ export default function Home() {
                     aria-label={`View project: ${project.title}`}
                   >
                     {project.thumbnail ? (
-                      <img src={project.thumbnail} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                      <ProtectedImage src={project.thumbnail} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-card-bg to-surface-high flex items-center justify-center">
                         <span className="material-symbols-outlined text-4xl text-accent/20">palette</span>

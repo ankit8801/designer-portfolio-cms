@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { getProjectById, fetchProjects } from '../firebase/services/projectService'
 import InteractiveBentoGallery from '../components/blocks/interactive-bento-gallery'
+import { ProtectedImage } from '../components/ui/ProtectedImage'
 
 // ── Block renderers ────────────────────────────────────────────────────────────
 
@@ -22,7 +23,7 @@ function ImageBlock({ block }) {
     <div className="max-w-5xl mx-auto">
       <figure>
         <div className="w-full rounded-2xl overflow-hidden shadow-2xl">
-          <img
+          <ProtectedImage
             src={block.url}
             alt={block.caption || 'Project image'}
             className="w-full h-auto object-cover"
@@ -245,7 +246,7 @@ export default function ProjectDetails() {
             transition={{ duration: 0.8, ease: customEase }}
             className="relative w-full aspect-[21/9] md:rounded-2xl overflow-hidden group shadow-2xl"
           >
-            <img
+            <ProtectedImage
               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
               src={project.thumbnail}
               alt={`Cover image for ${project.title}`}
@@ -294,7 +295,7 @@ export default function ProjectDetails() {
             >
               {nextProject.thumbnail && (
                 <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0">
-                  <img src={nextProject.thumbnail} alt={nextProject.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <ProtectedImage src={nextProject.thumbnail} alt={nextProject.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
               )}
               <div className="flex-1 min-w-0">
