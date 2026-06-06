@@ -62,6 +62,13 @@ export default function Home() {
       <Helmet>
         <title>Devendra Surve | graphic designer</title>
         <meta name="description" content="Devendra Surve is a graphic designer crafting compelling brand identities, UI/UX experiences, packaging, and visual systems." />
+        <meta property="og:title" content="Devendra Surve | graphic designer" />
+        <meta property="og:description" content="Devendra Surve is a graphic designer crafting compelling brand identities, UI/UX experiences, packaging, and visual systems." />
+        <meta property="og:image" content={settings?.homeHero || "https://devendrasurve.com/default-og-image.jpg"} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Devendra Surve | graphic designer" />
+        <meta name="twitter:description" content="Devendra Surve is a graphic designer crafting compelling brand identities, UI/UX experiences, packaging, and visual systems." />
+        <meta name="twitter:image" content={settings?.homeHero || "https://devendrasurve.com/default-og-image.jpg"} />
       </Helmet>
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}

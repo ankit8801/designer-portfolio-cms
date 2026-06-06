@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { getProjectById, fetchProjects } from '../firebase/services/projectService'
+import { getProjectById, getNextProject } from '../firebase/services/projectService'
 import InteractiveBentoGallery from '../components/blocks/interactive-bento-gallery'
 import { ProtectedImage } from '../components/ui/ProtectedImage'
 
@@ -145,10 +145,11 @@ export default function ProjectDetails() {
         const data = await getProjectById(id)
         setProject(data)
 
-        // Fetch adjacent project for "Next Project" strip
-        const all = await fetchProjects()
-        const idx = all.findIndex(p => p.id === id)
-        setNextProject(all[(idx + 1) % all.length] || null)
+        // Fetch adjacent project for "Next Project" strip using targeted query
+        if (data && data.createdAt) {
+          const next = await getNextProject(data.createdAt)
+          setNextProject(next)
+        }
       } catch (err) {
         console.error('Failed to load project', err)
       } finally {
@@ -187,6 +188,14 @@ export default function ProjectDetails() {
       <Helmet>
         <title>{`${project.title} | Devendra Surve`}</title>
         <meta name="description" content={`${project.title} — a ${project.category} project by Devendra Surve.`} />
+        <meta property="og:title" content={`${project.title} | Devendra Surve`} />
+        <meta property="og:description" content={`${project.title} — a ${project.category} project by Devendra Surve.`} />
+        <meta property="og:image" content={project.thumbnail} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${project.title} | Devendra Surve`} />
+        <meta name="twitter:description" content={`${project.title} — a ${project.category} project by Devendra Surve.`} />
+        <meta name="twitter:image" content={project.thumbnail} />
+        <link rel="canonical" href={`https://devendrasurve.com/projects/${project.id}`} />
       </Helmet>
 
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
