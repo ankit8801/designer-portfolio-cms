@@ -1,4 +1,4 @@
-import { collection, getDocs, addDoc, serverTimestamp, query, orderBy, getDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, serverTimestamp, query, orderBy, getDoc, doc, updateDoc, deleteDoc, limit, startAfter } from "firebase/firestore";
 import { db } from "../config";
 
 const PROJECTS_COLLECTION = "projects";
@@ -102,6 +102,40 @@ export const getProjectById = async (id) => {
   } catch (error) {
     console.error("Error fetching project:", error);
     throw new Error("Failed to load project details");
+  }
+};
+
+export const getNextProject = async (currentProjectCreatedAt) => {
+  try {
+    if (!currentProjectCreatedAt) return null;
+    
+    // Attempt to get the next project (older than current)
+    const nextQ = query(
+      collection(db, PROJECTS_COLLECTION),
+      orderBy("createdAt", "desc"),
+      startAfter(currentProjectCreatedAt),
+      limit(1)
+    );
+    let snapshot = await getDocs(nextQ);
+
+    // If we are at the end of the list, loop back to the newest project
+    if (snapshot.empty) {
+      const firstQ = query(
+        collection(db, PROJECTS_COLLECTION),
+        orderBy("createdAt", "desc"),
+        limit(1)
+      );
+      snapshot = await getDocs(firstQ);
+    }
+
+    if (!snapshot.empty) {
+      const docSnap = snapshot.docs[0];
+      return { id: docSnap.id, ...normalizeProject(docSnap.data()) };
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching next project:", error);
+    return null;
   }
 };
 
