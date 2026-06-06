@@ -6,7 +6,8 @@ import { fetchProjects, deleteProject } from '../firebase/services/projectServic
 import { useNavigate } from 'react-router-dom'
 import { fetchContacts } from '../firebase/services/contactService'
 import { getSettings, updateSetting } from '../firebase/services/settingsService'
-import { uploadToIMGBB } from '../firebase/services/imgbbService'
+import { uploadFile } from '../firebase/services/storageService'
+import { processImageForWeb } from '../utils/imageProcessor'
 import ProjectModal from '../components/ProjectModal'
 import ImageCropModal from '../components/ImageCropModal'
 
@@ -135,17 +136,22 @@ export default function Admin() {
     console.log(`--- Starting Page Content Upload: ${uploadingSlot} ---`);
 
     try {
-      // 1. Upload to IMGBB
-      console.log("Uploading to IMGBB...");
-      const imageUrl = await uploadToIMGBB(blob);
-      console.log("IMGBB Upload Success:", imageUrl);
+      // 1. Process image (no watermark for page assets)
+      console.log("Processing image...");
+      const processedBlob = await processImageForWeb(blob, { maxWidth: 1920, watermark: { enabled: false } });
 
-      // 2. Update Firestore Settings
+      // 2. Upload to Storage
+      console.log("Uploading to Storage...");
+      const path = `page_content/${Date.now()}_${uploadingSlot}.webp`;
+      const imageUrl = await uploadFile(processedBlob, path);
+      console.log("Storage Upload Success:", imageUrl);
+
+      // 3. Update Firestore Settings
       console.log("Updating Firestore settings...");
       await updateSetting(uploadingSlot, imageUrl);
       console.log("Firestore update success");
 
-      // 3. Update Local State
+      // 4. Update Local State
       setSettings(prev => ({ ...prev, [uploadingSlot]: imageUrl }));
       
     } catch (err) {
@@ -465,6 +471,48 @@ export default function Admin() {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* Watermark Settings */}
+              <div className="bg-card-bg/30 border border-white/5 p-8 rounded-3xl space-y-8 lg:col-span-2">
+                <div className="flex items-center gap-4">
+                  <span className="material-symbols-outlined text-accent">branding_watermark</span>
+                  <h3 className="font-headline font-bold text-lg uppercase tracking-wider text-primary-text">Watermark Settings</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 block">Enable Watermark</label>
+                    <button 
+                      onClick={async () => {
+                        const newVal = !settings.enableWatermark;
+                        try {
+                          await updateSetting('enableWatermark', newVal);
+                          setSettings(prev => ({ ...prev, enableWatermark: newVal }));
+                        } catch(e) {
+                          console.error(e);
+                        }
+                      }}
+                      className={`w-full p-4 rounded-xl border font-headline text-xs uppercase tracking-wider transition-all flex items-center gap-3 ${
+                        settings.enableWatermark ? 'border-accent bg-accent/10 text-accent' : 'border-white/10 bg-background/50 text-primary-text/40'
+                      }`}>
+                      <span className="material-symbols-outlined text-sm">{settings.enableWatermark ? 'toggle_on' : 'toggle_off'}</span>
+                      {settings.enableWatermark ? 'Enabled' : 'Disabled'}
+                    </button>
+                    <p className="text-[10px] text-primary-text/40 mt-2">Applies to newly uploaded project images. Keeps your work safe from casual saving.</p>
+                  </div>
+                  <div className="space-y-4">
+                    <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 block">Watermark Text</label>
+                    <input 
+                      type="text" 
+                      value={settings.watermarkText !== undefined ? settings.watermarkText : '© Devendra Surve'} 
+                      onChange={(e) => setSettings(prev => ({...prev, watermarkText: e.target.value}))}
+                      onBlur={async (e) => await updateSetting('watermarkText', e.target.value)}
+                      disabled={!settings.enableWatermark}
+                      placeholder="© Devendra Surve"
+                      className="w-full bg-background/50 border border-white/10 rounded-xl p-4 font-body text-primary-text focus:border-accent focus:outline-none transition-all disabled:opacity-50"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { createProject, updateProject } from '../firebase/services/projectService';
-import { uploadToIMGBB } from '../firebase/services/imgbbService';
+import { uploadFile } from '../firebase/services/storageService';
+import { getSettings } from '../firebase/services/settingsService';
+import { processImageForWeb } from '../utils/imageProcessor';
+import { recordImageFingerprint } from '../utils/imageFingerprint';
 import ImageCropModal from './ImageCropModal';
-import { compressImage } from '../utils/cropImage';
 
 const CATEGORIES = [
   'Brand Identity',
@@ -191,13 +193,39 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
       return;
     }
 
-    setStatus({ state: 'uploading', message: 'Uploading cover image…' });
+    setStatus({ state: 'uploading', message: 'Fetching settings & preparing uploads…' });
 
     try {
+      const settings = await getSettings();
+      const watermarkOptions = {
+        enabled: settings.enableWatermark === true,
+        type: settings.watermarkType || 'text',
+        text: settings.watermarkText || '© Devendra Surve',
+        imageUrl: settings.watermarkImageUrl || ''
+      };
+
+      // Helper for uploading and fingerprinting
+      const uploadAndFingerprint = async (blob, originalName, maxWidth = 1920, isCover = false) => {
+        setStatus({ state: 'uploading', message: `Processing ${isCover ? 'cover image' : originalName}…` });
+        const processedBlob = await processImageForWeb(blob, {
+          maxWidth,
+          watermark: isCover ? { enabled: false } : watermarkOptions // optionally skip watermark on cover
+        });
+        const path = `projects/${Date.now()}_${originalName.replace(/[^a-zA-Z0-9.-]/g, '_')}.webp`;
+        setStatus({ state: 'uploading', message: `Uploading ${isCover ? 'cover image' : originalName}…` });
+        const url = await uploadFile(processedBlob, path);
+        await recordImageFingerprint({
+          imageUrl: url,
+          originalFileName: originalName,
+          projectId: initialData ? initialData.id : 'new_project',
+        });
+        return url;
+      };
+
       // 1. Thumbnail
       let thumbnailUrl = initialData?.thumbnail || '';
       if (thumbnailBlob) {
-        thumbnailUrl = await uploadToIMGBB(thumbnailBlob);
+        thumbnailUrl = await uploadAndFingerprint(thumbnailBlob, 'thumbnail.png', 800, true);
         if (!thumbnailUrl) throw new Error('Cover image upload failed.');
       }
 
@@ -212,7 +240,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
         } else if (block.type === 'image') {
           let url = block.url;
           if (block._file) {
-            url = await uploadToIMGBB(block._file);
+            url = await uploadAndFingerprint(block._file, block._file.name || 'image.png', 1920);
             if (!url) throw new Error('An image block failed to upload.');
           }
           if (url) finalBlocks.push({ type: 'image', url, caption: block.caption || '' });
@@ -222,9 +250,8 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
           for (let i = 0; i < (block._files?.length || 0); i++) {
             const file = block._files[i];
             let url;
-            if (file instanceof File) {
-              const compressed = await compressImage(file, 0.8, 1600);
-              url = await uploadToIMGBB(compressed);
+            if (file instanceof File || file instanceof Blob) {
+              url = await uploadAndFingerprint(file, file.name || `grid_image_${i}.png`, 1920);
             } else {
               url = block._previews?.[i] || '';
             }
