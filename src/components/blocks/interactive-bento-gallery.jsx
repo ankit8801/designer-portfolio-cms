@@ -161,8 +161,9 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
           </AnimatePresence>
 
           <button
-            className="absolute top-6 right-6 p-4 rounded-full bg-white/5 text-primary-text/40 hover:text-red-400 hover:bg-white/10 transition-all border border-white/5 active:scale-90 shadow-xl"
+            className="absolute top-6 right-6 p-4 rounded-full bg-white/5 text-primary-text/40 hover:text-red-400 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-all border border-white/5 active:scale-90 shadow-xl"
             onClick={onClose}
+            aria-label="Close gallery"
           >
             <X className='w-5 h-5' />
           </button>
@@ -305,8 +306,15 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
               <motion.div
                 key={item.id}
                 layoutId={`media-${item.id}`}
-                className={`relative overflow-hidden rounded-2xl cursor-grab active:cursor-grabbing border border-white/5 ${item.span}`}
+                className={`relative overflow-hidden rounded-2xl cursor-grab active:cursor-grabbing border border-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${item.span}`}
                 onClick={() => !isDragging && setSelectedItem(item)}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    !isDragging && setSelectedItem(item);
+                  }
+                }}
                 variants={{
                   hidden: { y: 30, scale: 0.95, opacity: 0 },
                   visible: {

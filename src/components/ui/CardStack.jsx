@@ -174,8 +174,9 @@ export function CardStack({
             <button
               key={idx}
               onClick={() => setActive(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
               className={cn(
-                "h-1.5 rounded-full transition-all duration-500",
+                "h-1.5 rounded-full transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 idx === active ? "w-8 bg-accent" : "w-2 bg-white/10 hover:bg-white/20"
               )}
             />
@@ -191,7 +192,7 @@ function ObsidianCard({ item, isActive }) {
     <Link 
       to={item.href} 
       className={cn(
-        "relative h-full w-full block group transition-all duration-700",
+        "relative h-full w-full block group transition-all duration-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl",
         isActive ? "pointer-events-auto" : "pointer-events-none"
       )}
     >
