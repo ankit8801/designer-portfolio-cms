@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import React, { useState, useEffect } from 'react'
 import { getSettings } from '../firebase/services/settingsService'
+import { ProtectedImage } from '../components/ui/ProtectedImage'
 
 const DEFAULT_MODEL = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAmLJLVr-u5vNVg6-5nELs24TrHcXnBR4dA_jA70oaCkN5povJEHW_iLFR6JvqhpCQZqa74snkvGEuBRyGFGptS7byLjSN4mwLcuaW3ua03qRmdCIrkW_KTZD2xWsEgWtoUVE0avhroUhdgjn_Si49kb1DiWVF6Z6tJ6zzQIpazT4_CTCfQsW4HHOTtWVQduvv1pndQjMFHTjWVWLWGfucRDm3NU7lXFjKPlOGORw-_vs1cqJNCa-YP5fg6Mzm4hI5dhvRvbrkIneHQ'
 
@@ -82,7 +83,7 @@ export default function Services() {
             className="w-full md:w-1/2 relative group"
           >
             <div className="absolute -inset-4 bg-accent/5 blur-3xl rounded-full opacity-50" />
-            <img
+            <ProtectedImage
               alt="Creative workspace showcasing design tools and process"
               className="relative z-10 w-full h-auto object-contain mix-blend-lighten transform group-hover:scale-105 transition-transform duration-700 ease-out"
               src={modelImage}

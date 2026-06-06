@@ -1,6 +1,7 @@
 import * as React from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ProtectedImage } from "./ProtectedImage";
 
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -196,7 +197,7 @@ function ObsidianCard({ item, isActive }) {
     >
       {/* image */}
       <div className="absolute inset-0 overflow-hidden">
-        <img
+        <ProtectedImage
           src={item.imageSrc}
           alt={item.title}
           className={cn(
