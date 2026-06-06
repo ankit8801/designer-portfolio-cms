@@ -413,7 +413,7 @@ export default function Admin() {
                 <div className="space-y-4">
                   <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 block">Hero Background Image</label>
                   <div className="relative group rounded-2xl overflow-hidden aspect-video bg-white/5 border border-white/5">
-                    <img src={settings.homeHero || "https://lh3.googleusercontent.com/aida-public/AB6AXuDar4SRBvcnU0_eViIb5fyO6-f6Zg02ySzjPtWTMwm8iYT0H9OjezC7W7-tjQCRve3hTgB6-XpE_4xTAZx4K8djySAxk3G_I2ix6WIMR4c6xnP6bF2NDOtiisni9DCp8PyZsIwCIvNlcg95p7mcSX1XhdeRETG7NrwBx_en3kVoK7FHbmV9qyFSDYBRFRkVUJbVw8K2EMkUp8P6tfogfU3vTyQPAh1udNBEljnTmRqNRbT8uxw2LFelO0HSQcOXa6ITNvRSabgf7l9l"} className="w-full h-full object-cover opacity-50" alt="Home Hero" />
+                    <img src={settings.homeHero || "/placeholder.webp"} className="w-full h-full object-cover opacity-50" alt="Home Hero" />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <label className="cursor-pointer bg-accent text-on-accent px-6 py-3 rounded-full font-headline font-bold text-[10px] uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center gap-2">
                         {uploadingSlot === 'homeHero' ? <div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" /> : <span className="material-symbols-outlined text-sm">cloud_upload</span>}
@@ -434,7 +434,7 @@ export default function Admin() {
                 <div className="space-y-4">
                   <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 block">Floating Model Image</label>
                   <div className="relative group rounded-2xl overflow-hidden aspect-video bg-white/5 border border-white/5">
-                    <img src={settings.servicesModel || "https://lh3.googleusercontent.com/aida-public/AB6AXuAmLJLVr-u5vNVg6-5nELs24TrHcXnBR4dA_jA70oaCkN5povJEHW_iLFR6JvqhpCQZqa74snkvGEuBRyGFGptS7byLjSN4mwLcuaW3ua03qRmdCIrkW_KTZD2xWsEgWtoUVE0avhroUhdgjn_Si49kb1DiWVF6Z6tJ6zzQIpazT4_CTCfQsW4HHOTtWVQduvv1pndQjMFHTjWVWLWGfucRDm3NU7lXFjKPlOGORw-_vs1cqJNCa-YP5fg6Mzm4hI5dhvRvbrkIneHQ"} className="w-full h-full object-contain mix-blend-lighten opacity-50" alt="Services Model" />
+                    <img src={settings.servicesModel || "/placeholder.webp"} className="w-full h-full object-contain mix-blend-lighten opacity-50" alt="Services Model" />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <label className="cursor-pointer bg-accent text-on-accent px-6 py-3 rounded-full font-headline font-bold text-[10px] uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center gap-2">
                         {uploadingSlot === 'servicesModel' ? <div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" /> : <span className="material-symbols-outlined text-sm">cloud_upload</span>}
@@ -454,9 +454,9 @@ export default function Admin() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {[
-                    { id: 'aboutPortrait', label: 'Designer Portrait', default: "https://lh3.googleusercontent.com/aida-public/AB6AXuDFbeSpEsP4UlxheqYTjaSPhvQyzC42RjwGaNVPdj5E8bP5u9evp0DK1kMT2gg4HjqD74UsnZJuTXOAXZ6BZrvjBNZdqbg6t_-G5A5OC50iqAk25I8u77-4Aq-xvZrN00KYPjogwZKXcKggof0kINXeqZs2k825ZDmlZiqL-tJ93RdxGY1vGyJAp95vnMdDtym1wdK-cmC0xt9J8N-F_boBUEe30vT6Vw9oy85Amm8d_BRVHd5s2Qe8hiksHPkeCHir16qfORTjssEn" },
-                    { id: 'aboutPhilosophy', label: 'Process Detail', default: "https://lh3.googleusercontent.com/aida-public/AB6AXuCJR59X0MEgm3EDXP0vXKABKq6E9IsYS73RpHgcORBrndrCSvo0LCQ5vBpVB8dgALoriBrFEODZFfZ8wGzvyup3oD9_Q18LWirI1ASAznfOEfKfHlu6_FRaxWKxHcK0AH8dJ7aqrpo0L1DjKoCJiGp2TGTe725fjj0Ii6y4mhe3kpM2We-e_B2Od1IP0O8-VfogcAz2gkqWtv2E-Y9R0wPc7g-7W-Dd_5Dect6AQ4ucVe1zl80lm_AewrdkYIGo3ZYAOM82U5T3cnk_" },
-                    { id: 'aboutResilience', label: 'Creative Abstract', default: "https://lh3.googleusercontent.com/aida-public/AB6AXuBbo_EdStQMs7fOy5oIB3kyfoN38-gC-8VxrG-gzeUTro7_zWf6Za4fa3Et4FM9alG_yq0AFPZnb_ssuDmjXuggHfENKp1gAc7CwpJhwd9m_Fn2y966cbjoUh68JDhgCqlc1Tfnosy0-hMzTJVnpp68LLjtrq9B5JprTsU2yXquRnoGiptQzuiQ4-UwqRdtFEc2SOm_RNn9kzmRKo5pfCCs3UlRd1KD1qLHFT8IOLs1hSa6eYHDWbPfRKdq0ccmOOl_lQAgw772l4iO" }
+                    { id: 'aboutPortrait', label: 'Designer Portrait', default: "/placeholder.webp" },
+                    { id: 'aboutPhilosophy', label: 'Process Detail', default: "/placeholder.webp" },
+                    { id: 'aboutResilience', label: 'Creative Abstract', default: "/placeholder.webp" }
                   ].map(slot => (
                     <div key={slot.id} className="space-y-4">
                       <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 block">{slot.label}</label>

@@ -6,9 +6,9 @@ import { getSettings } from '../firebase/services/settingsService'
 import { ProtectedImage } from '../components/ui/ProtectedImage'
 
 const DEFAULTS = {
-  portrait:   'https://lh3.googleusercontent.com/aida-public/AB6AXuDFbeSpEsP4UlxheqYTjaSPhvQyzC42RjwGaNVPdj5E8bP5u9evp0DK1kMT2gg4HjqD74UsnZJuTXOAXZ6BZrvjBNZdqbg6t_-G5A5OC50iqAk25I8u77-4Aq-xvZrN00KYPjogwZKXcKggof0kINXeqZs2k825ZDmlZiqL-tJ93RdxGY1vGyJAp95vnMdDtym1wdK-cmC0xt9J8N-F_boBUEe30vT6Vw9oy85Amm8d_BRVHd5s2Qe8hiksHPkeCHir16qfORTjssEn',
-  philosophy: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCJR59X0MEgm3EDXP0vXKABKq6E9IsYS73RpHgcORBrndrCSvo0LCQ5vBpVB8dgALoriBrFEODZFfZ8wGzvyup3oD9_Q18LWirI1ASAznfOEfKfHlu6_FRaxWKxHcK0AH8dJ7aqrpo0L1DjKoCJiGp2TGXe725fjj0Ii6y4mhe3kpM2We-e_B2Od1IP0O8-VfogcAz2gkqWtv2E-Y9R0wPc7g-7W-Dd_5Dect6AQ4ucVe1zl80lm_AewrdkYIGo3ZYAOM82U5T3cnk_',
-  resilience: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBbo_EdStQMs7fOy5oIB3kyfoN38-gC-8VxrG-gzeUTro7_zWf6Za4fa3Et4FM9alG_yq0AFPZnb_ssuDmjXuggHfENKp1gAc7CwpJhwd9m_Fn2y966cbjoUh68JDhgCqlc1Tfnosy0-hMzTJVnpp68LLjtrq9B5JprTsU2yXquRnoGiptQzuiQ4-UwqRdtFEc2SOm_RNn9kzmRKo5pfCCs3UlRd1KD1qLHFT8IOLs1hSa6eYHDWbPfRKdq0ccmOOl_lQAgw772l4iO',
+  portrait:   '/placeholder.webp',
+  philosophy: '/placeholder.webp',
+  resilience: '/placeholder.webp',
 }
 
 export default function About() {

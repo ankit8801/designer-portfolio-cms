@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { getSettings } from '../firebase/services/settingsService'
 import { ProtectedImage } from '../components/ui/ProtectedImage'
 
-const DEFAULT_MODEL = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAmLJLVr-u5vNVg6-5nELs24TrHcXnBR4dA_jA70oaCkN5povJEHW_iLFR6JvqhpCQZqa74snkvGEuBRyGFGptS7byLjSN4mwLcuaW3ua03qRmdCIrkW_KTZD2xWsEgWtoUVE0avhroUhdgjn_Si49kb1DiWVF6Z6tJ6zzQIpazT4_CTCfQsW4HHOTtWVQduvv1pndQjMFHTjWVWLWGfucRDm3NU7lXFjKPlOGORw-_vs1cqJNCa-YP5fg6Mzm4hI5dhvRvbrkIneHQ'
+const DEFAULT_MODEL = '/placeholder.webp'
 
 const stats = [
   { value: '50+', label: 'Projects Delivered' },
