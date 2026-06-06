@@ -12,7 +12,7 @@ function Footer() {
 
         {/* Copyright */}
         <div className="text-primary-text/60 font-body text-xs tracking-widest uppercase">
-          © {new Date().getFullYear()} Devendra Surve 
+          © {new Date().getFullYear()} Devendra Surve. All rights reserved.
         </div>
 
         {/* Links */}

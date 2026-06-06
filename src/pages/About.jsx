@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { getSettings } from '../firebase/services/settingsService'
+import { ProtectedImage } from '../components/ui/ProtectedImage'
 
 const DEFAULTS = {
   portrait:   'https://lh3.googleusercontent.com/aida-public/AB6AXuDFbeSpEsP4UlxheqYTjaSPhvQyzC42RjwGaNVPdj5E8bP5u9evp0DK1kMT2gg4HjqD74UsnZJuTXOAXZ6BZrvjBNZdqbg6t_-G5A5OC50iqAk25I8u77-4Aq-xvZrN00KYPjogwZKXcKggof0kINXeqZs2k825ZDmlZiqL-tJ93RdxGY1vGyJAp95vnMdDtym1wdK-cmC0xt9J8N-F_boBUEe30vT6Vw9oy85Amm8d_BRVHd5s2Qe8hiksHPkeCHir16qfORTjssEn',
@@ -44,7 +45,7 @@ export default function About() {
             className="relative group"
           >
             <div className="aspect-[4/5] overflow-hidden rounded-2xl shadow-2xl transition-transform duration-700 hover:scale-[1.02]">
-              <img
+              <ProtectedImage
                 alt="Portrait of Devendra Surve, The Designer
 
 Devendra Surve is an emerging graphic designer currently pursuing his fourth year of study, passionate about transforming ideas into compelling visual experiences. His creative practice spans branding, digital design, social media creatives, and visual identity systems, always guided by a strong sense of clarity and purpose.
@@ -141,7 +142,7 @@ Devendra Surve is an emerging graphic designer currently pursuing his fourth yea
           className="max-w-7xl mx-auto grid grid-cols-12 gap-8 items-center"
         >
           <div className="col-span-12 lg:col-span-7 h-[400px] lg:h-[500px] overflow-hidden rounded-2xl shadow-xl" style={{ backgroundColor: '#1F1208' }}>
-            <img
+            <ProtectedImage
               alt="A detail shot illustrating the design philosophy — precision, craft, and visual rhythm"
               className="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity duration-700"
               src={images.philosophy}
@@ -176,7 +177,7 @@ Devendra Surve is an emerging graphic designer currently pursuing his fourth yea
           className="max-w-7xl mx-auto grid grid-cols-12 gap-8 items-center"
         >
           <div className="col-span-12 lg:col-span-7 h-[500px] overflow-hidden rounded-2xl shadow-xl">
-            <img
+            <ProtectedImage
               alt="A creative studio detail representing process, iteration, and craft"
               className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-700"
               src={images.resilience}
