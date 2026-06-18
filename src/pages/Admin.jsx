@@ -138,7 +138,7 @@ export default function Admin() {
     try {
       // 1. Process image (no watermark for page assets)
       console.log("Processing image...");
-      const processedBlob = await processImageForWeb(blob, { maxWidth: 1920, watermark: { enabled: false } });
+      const processedBlob = await processImageForWeb(blob, { maxWidth: 1920, preserveDimensions: blob.preserveDimensions === true, watermark: { enabled: false } });
 
       // 2. Upload to Storage
       console.log("Uploading to Storage...");

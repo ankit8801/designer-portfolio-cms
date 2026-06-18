@@ -10,14 +10,21 @@
  * @param {string} [options.watermark.type='text'] - 'text' or 'image'.
  * @param {string} [options.watermark.text=''] - Text for the watermark if type is 'text'.
  * @param {string} [options.watermark.imageUrl=''] - URL for the watermark image if type is 'image'.
+ * @param {boolean} [options.preserveDimensions=false] - If true, ignores maxWidth and doesn't downscale.
  * @returns {Promise<Blob>} - Resolves with the optimized WebP Blob.
  */
 export const processImageForWeb = async (file, options = {}) => {
   const {
     maxWidth = 1920,
-    quality = 0.8,
+    quality = options.preserveDimensions ? 0.95 : 0.8,
+    preserveDimensions = false,
     watermark = { enabled: false, type: 'text', text: '', imageUrl: '' }
   } = options;
+
+  // Fast-path: if it's already WebP, we want to preserve dimensions, and there's no watermark, skip processing
+  if (preserveDimensions && file.type === 'image/webp' && !watermark.enabled) {
+    return Promise.resolve(file);
+  }
 
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -30,7 +37,7 @@ export const processImageForWeb = async (file, options = {}) => {
       let { width, height } = img;
 
       // Calculate new dimensions
-      if (width > maxWidth) {
+      if (!preserveDimensions && width > maxWidth) {
         height = Math.round((height * maxWidth) / width);
         width = maxWidth;
       }

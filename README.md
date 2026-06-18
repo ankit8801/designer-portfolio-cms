@@ -2,7 +2,7 @@
 
 A portfolio platform and custom CMS built for showcasing graphic design projects through immersive case-study pages.
 
-**Live Demo:** https://your-vercel-link.vercel.app
+**Live Demo:** https://designer-portfolio-cms-pied.vercel.app
 
 ## About
 
