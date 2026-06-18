@@ -47,10 +47,41 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
   const [blocks, setBlocks] = useState([]);
   const [showBlockMenu, setShowBlockMenu] = useState(false);
   const [status, setStatus] = useState({ state: 'idle', message: '' });
+  const [isDirty, setIsDirty] = useState(false);
   const [cropImage, setCropImage] = useState(null);
   const [isCropModalOpen, setIsCropModalOpen] = useState(false);
   const [croppingTarget, setCroppingTarget] = useState(null); // 'thumbnail' | { blockIdx, gridIdx? }
   const blockMenuRef = useRef(null);
+
+
+  // Warn before unload if dirty
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isDirty && status.state !== 'uploading') {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty, status.state]);
+
+  // Save Draft to localStorage
+  useEffect(() => {
+    if (isDirty && !initialData && status.state !== 'uploading') {
+      const draft = {
+        title,
+        category,
+        featured,
+        blocks: blocks.map(b => ({
+          ...b,
+          _file: null,
+          _files: [],
+        }))
+      };
+      localStorage.setItem('ds_project_draft', JSON.stringify(draft));
+    }
+  }, [title, category, featured, blocks, isDirty, initialData, status.state]);
 
   // Populate form when editing an existing project
   useEffect(() => {
@@ -61,7 +92,6 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
       setFeatured(initialData.featured || false);
       setThumbnailPreview(initialData.thumbnail || '');
       setThumbnailBlob(null);
-      // Reconstruct blocks — strip client-side blob/preview fields
       const loadedBlocks = (initialData.blocks || []).map(b => ({
         ...b,
         _file: null,
@@ -70,13 +100,32 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
         _previews: b.type === 'photo_grid' ? (b.images || []).map(img => img.url) : [],
       }));
       setBlocks(loadedBlocks);
+      setIsDirty(false);
     } else {
-      setTitle('');
-      setCategory(CATEGORIES[0]);
-      setFeatured(false);
-      setThumbnailPreview('');
-      setThumbnailBlob(null);
-      setBlocks([]);
+      const draftStr = localStorage.getItem('ds_project_draft');
+      if (draftStr && window.confirm('Restore previous project draft?')) {
+        try {
+          const draft = JSON.parse(draftStr);
+          setTitle(draft.title || '');
+          setCategory(draft.category || CATEGORIES[0]);
+          setFeatured(draft.featured || false);
+          setBlocks(draft.blocks || []);
+          setThumbnailPreview('');
+          setThumbnailBlob(null);
+          setIsDirty(true);
+        } catch(e) {
+          setTitle(''); setCategory(CATEGORIES[0]); setFeatured(false); setBlocks([]); setIsDirty(false);
+        }
+      } else {
+        if (draftStr) localStorage.removeItem('ds_project_draft');
+        setTitle('');
+        setCategory(CATEGORIES[0]);
+        setFeatured(false);
+        setThumbnailPreview('');
+        setThumbnailBlob(null);
+        setBlocks([]);
+        setIsDirty(false);
+      }
     }
     setStatus({ state: 'idle', message: '' });
     setShowBlockMenu(false);
@@ -95,6 +144,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
 
   const handleClose = () => {
     if (status.state === 'uploading') return;
+    if (isDirty && !window.confirm('You have unsaved changes. Discard project?')) return;
     onClose();
   };
 
@@ -113,18 +163,18 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
 
   // ── Block helpers ──────────────────────────────────────────────────────────
   const addBlock = (type) => {
-    setBlocks(prev => [...prev, emptyBlock(type)]);
+    setBlocks(prev => [...prev, emptyBlock(type)]); setIsDirty(true);
     setShowBlockMenu(false);
   };
 
   const removeBlock = (idx) => {
-    setBlocks(prev => prev.filter((_, i) => i !== idx));
+    setBlocks(prev => prev.filter((_, i) => i !== idx)); setIsDirty(true);
   };
 
   const moveBlock = (idx, dir) => {
     setBlocks(prev => {
       const next = [...prev];
-      const swapIdx = idx + dir;
+      setIsDirty(true); const swapIdx = idx + dir;
       if (swapIdx < 0 || swapIdx >= next.length) return next;
       [next[idx], next[swapIdx]] = [next[swapIdx], next[idx]];
       return next;
@@ -132,7 +182,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
   };
 
   const updateBlock = (idx, patch) => {
-    setBlocks(prev => prev.map((b, i) => i === idx ? { ...b, ...patch } : b));
+    setBlocks(prev => prev.map((b, i) => i === idx ? { ...b, ...patch } : b)); setIsDirty(true);
   };
 
   // ── Image block: trigger crop ──────────────────────────────────────────────
@@ -162,7 +212,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
   const updateGridCaption = (blockIdx, imgIdx, caption) => {
     setBlocks(prev => prev.map((b, i) => {
       if (i !== blockIdx) return b;
-      const images = [...(b.images || [])];
+      setIsDirty(true); const images = [...(b.images || [])];
       images[imgIdx] = { ...images[imgIdx], caption };
       return { ...b, images };
     }));
@@ -176,6 +226,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
     if (croppingTarget === 'thumbnail') {
       setThumbnailBlob(blob);
       setThumbnailPreview(URL.createObjectURL(blob));
+      setIsDirty(true);
     } else if (croppingTarget?.blockIdx !== undefined) {
       const preview = URL.createObjectURL(blob);
       updateBlock(croppingTarget.blockIdx, { _file: blob, _preview: preview });
@@ -209,6 +260,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
         setStatus({ state: 'uploading', message: `Processing ${isCover ? 'cover image' : originalName}…` });
         const processedBlob = await processImageForWeb(blob, {
           maxWidth,
+          preserveDimensions: blob.preserveDimensions === true,
           watermark: isCover ? { enabled: false } : watermarkOptions // optionally skip watermark on cover
         });
         const path = `projects/${Date.now()}_${originalName.replace(/[^a-zA-Z0-9.-]/g, '_')}.webp`;
@@ -225,12 +277,12 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
       // 1. Thumbnail
       let thumbnailUrl = initialData?.thumbnail || '';
       if (thumbnailBlob) {
+        setStatus({ state: 'uploading', message: 'Uploading cover image...' });
         thumbnailUrl = await uploadAndFingerprint(thumbnailBlob, 'thumbnail.png', 800, true);
         if (!thumbnailUrl) throw new Error('Cover image upload failed.');
       }
 
       // 2. Process blocks — upload any local file/blob references
-      setStatus({ state: 'uploading', message: 'Processing content blocks…' });
       const finalBlocks = [];
 
       for (const block of blocks) {
@@ -238,6 +290,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
           if (block.content.trim()) finalBlocks.push({ type: 'text', content: block.content });
 
         } else if (block.type === 'image') {
+          setStatus({ state: 'uploading', message: 'Uploading image block...' });
           let url = block.url;
           if (block._file) {
             url = await uploadAndFingerprint(block._file, block._file.name || 'image.png', 1920);
@@ -246,18 +299,20 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
           if (url) finalBlocks.push({ type: 'image', url, caption: block.caption || '' });
 
         } else if (block.type === 'photo_grid') {
-          const uploadedImages = [];
-          for (let i = 0; i < (block._files?.length || 0); i++) {
-            const file = block._files[i];
-            let url;
+          setStatus({ state: 'uploading', message: `Uploading gallery block...` });
+          const uploadPromises = [];
+          for (let g = 0; g < (block._files?.length || 0); g++) {
+            const file = block._files[g];
             if (file instanceof File || file instanceof Blob) {
-              url = await uploadAndFingerprint(file, file.name || `grid_image_${i}.png`, 1920);
+               uploadPromises.push(
+                  uploadAndFingerprint(file, file.name || `grid_image_${g}.png`, 1920)
+                    .then(url => ({ url, caption: block.images?.[g]?.caption || '' }))
+               );
             } else {
-              url = block._previews?.[i] || '';
+               uploadPromises.push(Promise.resolve({ url: block._previews?.[g] || '', caption: block.images?.[g]?.caption || '' }));
             }
-            if (url) uploadedImages.push({ url, caption: block.images?.[i]?.caption || '' });
           }
-          // Preserve existing grid images if no new files were uploaded
+          const uploadedImages = await Promise.all(uploadPromises);
           const existingImages = (!block._files?.length && block.images?.filter(img => img.url && !img.url.startsWith('blob:'))) || [];
           const merged = uploadedImages.length ? uploadedImages : existingImages;
           if (merged.length) finalBlocks.push({ type: 'photo_grid', images: merged });
@@ -270,7 +325,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
         }
       }
 
-      setStatus({ state: 'uploading', message: 'Saving to database…' });
+      setStatus({ state: 'uploading', message: 'Saving project...' });
 
       const payload = {
         title,
@@ -285,7 +340,8 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
         setStatus({ state: 'success', message: 'Project updated!' });
       } else {
         await createProject(payload);
-        setStatus({ state: 'success', message: 'Project published!' });
+        localStorage.removeItem('ds_project_draft');
+        setStatus({ state: 'success', message: 'Project published.' });
       }
 
       onSuccess();
@@ -420,7 +476,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
       {isOpen && (
         <>
           <motion.div key="overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-background/80 backdrop-blur-md z-[100]" onClick={handleClose} />
+            className="fixed inset-0 bg-background/80 backdrop-blur-md z-[100]" />
 
           <motion.div key="modal"
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
@@ -432,6 +488,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
             <ImageCropModal
               isOpen={isCropModalOpen}
               image={cropImage}
+              mode={croppingTarget === 'thumbnail' ? 'cover' : 'content'}
               onCancel={() => { setIsCropModalOpen(false); setCropImage(null); }}
               onCropComplete={handleCropComplete}
             />
@@ -467,7 +524,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
               {/* Title */}
               <div className="space-y-2">
                 <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Project Title <span className="text-accent">*</span></label>
-                <input type="text" value={title} onChange={e => setTitle(e.target.value)} required
+                <input type="text" value={title} onChange={e => { setTitle(e.target.value); setIsDirty(true); }} required
                   placeholder="e.g. Zara Noir — Brand Identity"
                   disabled={status.state === 'uploading'}
                   className="w-full bg-background/50 border border-white/10 rounded-xl p-4 font-body text-primary-text placeholder:text-white/10 focus:border-accent focus:outline-none transition-colors" />
@@ -477,14 +534,14 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Category <span className="text-accent">*</span></label>
-                  <select value={category} onChange={e => setCategory(e.target.value)} disabled={status.state === 'uploading'}
+                  <select value={category} onChange={e => { setCategory(e.target.value); setIsDirty(true); }} disabled={status.state === 'uploading'}
                     className="w-full bg-background/50 border border-white/10 rounded-xl p-4 font-body text-sm text-primary-text focus:border-accent focus:outline-none transition-colors appearance-none cursor-pointer">
                     {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div className="space-y-2">
                   <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Visibility</label>
-                  <button type="button" onClick={() => setFeatured(f => !f)} disabled={status.state === 'uploading'}
+                  <button type="button" onClick={() => { setFeatured(f => !f); setIsDirty(true); }} disabled={status.state === 'uploading'}
                     className={`w-full p-4 rounded-xl border font-headline text-xs uppercase tracking-wider transition-all flex items-center gap-3 ${
                       featured ? 'border-accent bg-accent/10 text-accent' : 'border-white/10 bg-background/50 text-primary-text/40'
                     }`}>

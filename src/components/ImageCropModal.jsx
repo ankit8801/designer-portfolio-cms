@@ -1,43 +1,62 @@
-import React, { useState, useCallback } from 'react';
-import Cropper from 'react-easy-crop';
+import React, { useState, useRef, useEffect } from 'react';
+import { Cropper } from 'react-advanced-cropper';
+import 'react-advanced-cropper/dist/style.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import getCroppedImg from '../utils/cropImage';
 
 const ASPECT_RATIOS = [
+  { label: 'Free', value: undefined },
   { label: 'Square (1:1)', value: 1 / 1 },
-  { label: 'Standard (4:3)', value: 4 / 3 },
+  { label: 'Portrait (4:5)', value: 4 / 5 },
   { label: 'Widescreen (16:9)', value: 16 / 9 },
 ];
 
-export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete }) {
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [aspect, setAspect] = useState(16 / 9);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete, mode = 'content' }) {
+  const [view, setView] = useState(mode === 'cover' ? 'crop' : 'preview');
+  const [aspect, setAspect] = useState(mode === 'cover' ? 16 / 9 : undefined);
   const [isProcessing, setIsProcessing] = useState(false);
+  const cropperRef = useRef(null);
 
-  const onCropChange = useCallback((crop) => {
-    setCrop(crop);
-  }, []);
+  // Reset view on open based on mode
+  useEffect(() => {
+    if (isOpen) {
+      setView(mode === 'cover' ? 'crop' : 'preview');
+      setAspect(mode === 'cover' ? 16 / 9 : undefined);
+    }
+  }, [isOpen, mode]);
 
-  const onZoomChange = useCallback((zoom) => {
-    setZoom(zoom);
-  }, []);
-
-  const onCropCompleteInternal = useCallback((_croppedArea, croppedAreaPixels) => {
-    setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
-
-  const handleApplyCrop = async () => {
-    if (!croppedAreaPixels) return;
+  const handleUseOriginal = async () => {
     setIsProcessing(true);
     try {
-      const croppedBlob = await getCroppedImg(image, croppedAreaPixels);
-      onCropComplete(croppedBlob);
+      // Fetch data URL back to Blob and attach a flag to skip resizing if needed
+      const res = await fetch(image);
+      const blob = await res.blob();
+      // Add a custom property so the image processor knows to preserve dimensions
+      blob.preserveDimensions = true; 
+      onCropComplete(blob);
     } catch (e) {
       console.error(e);
-      alert('Failed to crop image. Please try again.');
+      alert('Failed to process original image.');
     } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleApplyCrop = () => {
+    const cropper = cropperRef.current;
+    if (!cropper) return;
+    setIsProcessing(true);
+
+    const canvas = cropper.getCanvas();
+    if (canvas) {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          onCropComplete(blob);
+        } else {
+          alert('Crop failed.');
+        }
+        setIsProcessing(false);
+      }, 'image/webp', 0.95);
+    } else {
       setIsProcessing(false);
     }
   };
@@ -61,8 +80,10 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
           {/* Header */}
           <div className="flex-shrink-0 p-4 md:p-8 border-b border-white/5 flex justify-between items-center bg-card-bg/50 backdrop-blur-md">
             <div>
-              <span className="font-label text-[10px] tracking-[0.3em] uppercase text-accent mb-1 block italic">Refining Perspective</span>
-              <h2 className="font-headline font-bold text-xl uppercase tracking-wider text-primary-text">Crop Image</h2>
+              <span className="font-label text-[10px] tracking-[0.3em] uppercase text-accent mb-1 block italic">Asset Preparation</span>
+              <h2 className="font-headline font-bold text-xl uppercase tracking-wider text-primary-text">
+                {view === 'preview' ? 'Preview Image' : 'Crop Image'}
+              </h2>
             </div>
             <button 
               onClick={onCancel}
@@ -72,99 +93,136 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
             </button>
           </div>
 
-          {/* Main Content Area (Scrollable) */}
+          {/* Main Content Area */}
           <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col">
-            {/* Cropper Container - Fixed Height */}
-            <div className="relative h-[250px] sm:h-[350px] md:h-[450px] flex-shrink-0 bg-[#0a0a0a] border-b border-white/5">
-              <Cropper
-                image={image}
-                crop={crop}
-                zoom={zoom}
-                aspect={aspect}
-                onCropChange={onCropChange}
-                onCropComplete={onCropCompleteInternal}
-                onZoomChange={onZoomChange}
-                classes={{
-                  containerClassName: "bg-[#0a0a0a]",
-                  mediaClassName: "opacity-90"
-                }}
-              />
-            </div>
-
-            {/* Controls Section */}
-            <div className="p-4 md:p-8 space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
-                {/* Aspect Ratios */}
-                <div className="space-y-4">
-                  <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 block ml-1">Aspect Ratio</label>
-                  <div className="flex gap-2">
-                    {ASPECT_RATIOS.map((arr) => (
-                      <button
-                        key={arr.value}
-                        type="button"
-                        onClick={() => setAspect(arr.value)}
-                        className={`flex-1 py-3 px-2 rounded-xl text-[9px] font-headline font-bold uppercase tracking-widest transition-all ${
-                          aspect === arr.value 
-                          ? 'bg-accent text-on-accent shadow-lg shadow-accent/20' 
-                          : 'bg-white/5 text-primary-text/40 hover:bg-white/10 hover:text-primary-text'
-                        }`}
-                      >
-                        {arr.label.split(' ')[0]}
-                      </button>
-                    ))}
-                  </div>
+            
+            {view === 'preview' ? (
+              // --- PREVIEW VIEW ---
+              <div className="flex flex-col items-center p-8 space-y-8">
+                <div className="w-full max-w-2xl bg-black/40 rounded-2xl border border-white/10 p-4 flex items-center justify-center overflow-hidden" style={{ minHeight: '300px' }}>
+                  <img src={image} alt="Preview" className="max-w-full max-h-[50vh] object-contain rounded-lg" />
                 </div>
-
-                {/* Zoom Slider */}
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center px-1">
-                    <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 block">Zoom Detail</label>
-                    <span className="font-body text-[10px] text-accent font-bold">{(zoom * 100).toFixed(0)}%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min={1}
-                    max={3}
-                    step={0.1}
-                    value={zoom}
-                    onChange={(e) => setZoom(Number(e.target.value))}
-                    className="w-full h-1.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-accent hover:accent-accent/80 transition-all"
-                  />
+                
+                <div className="text-center space-y-2 max-w-md">
+                  <h3 className="font-headline text-lg font-bold text-primary-text">Designer Intent Preserved</h3>
+                  <p className="font-body text-sm text-primary-text/60">
+                    We recommend uploading the original asset exactly as you formatted it in Figma/Photoshop. We'll optimize it to WebP under the hood without altering dimensions.
+                  </p>
                 </div>
               </div>
-            </div>
+            ) : (
+              // --- CROP VIEW ---
+              <div className="flex flex-col h-full">
+                <div className="relative h-[300px] sm:h-[400px] md:h-[500px] flex-shrink-0 bg-[#0a0a0a] border-b border-white/5">
+                  <Cropper
+                    ref={cropperRef}
+                    src={image}
+                    className="cropper h-full w-full"
+                    stencilProps={{
+                      aspectRatio: aspect,
+                    }}
+                  />
+                </div>
+                
+                <div className="p-4 md:p-8">
+                  <div className="space-y-4">
+                    <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 block ml-1">Aspect Ratio Presets</label>
+                    <div className="flex gap-2 flex-wrap">
+                      {ASPECT_RATIOS.map((arr, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setAspect(arr.value)}
+                          className={`flex-1 min-w-[80px] py-3 px-2 rounded-xl text-[9px] font-headline font-bold uppercase tracking-widest transition-all ${
+                            aspect === arr.value 
+                            ? 'bg-accent text-on-accent shadow-lg shadow-accent/20' 
+                            : 'bg-white/5 text-primary-text/40 hover:bg-white/10 hover:text-primary-text'
+                          }`}
+                        >
+                          {arr.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
           </div>
 
           {/* Footer - Fixed Bottom */}
           <div className="flex-shrink-0 p-6 md:p-8 border-t border-white/5 bg-card-bg/50 backdrop-blur-md">
-            <div className="flex flex-col-reverse sm:flex-row justify-end gap-4 sm:gap-6 items-center">
-              <button
-                type="button"
-                onClick={onCancel}
-                disabled={isProcessing}
-                className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/40 hover:text-primary-text transition-colors disabled:opacity-30 py-2"
-              >
-                Discard
-              </button>
-              <button
-                type="button"
-                onClick={handleApplyCrop}
-                disabled={isProcessing}
-                className="w-full sm:w-auto bg-accent text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
-              >
-                {isProcessing ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" />
-                    Processing...
-                  </>
+            
+            {view === 'preview' ? (
+              <div className="flex flex-col-reverse sm:flex-row justify-end gap-4 items-center">
+                <button
+                  type="button"
+                  onClick={() => setView('crop')}
+                  disabled={isProcessing}
+                  className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/60 hover:text-primary-text transition-colors disabled:opacity-30 py-3 px-6 rounded-full border border-white/10 hover:bg-white/5"
+                >
+                  <span className="material-symbols-outlined text-[1rem] mr-2 align-middle">crop</span>
+                  Edit / Crop
+                </button>
+                <button
+                  type="button"
+                  onClick={handleUseOriginal}
+                  disabled={isProcessing}
+                  className="w-full sm:w-auto bg-accent text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
+                >
+                  {isProcessing ? (
+                    <><div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" /> Processing...</>
+                  ) : (
+                    <><span className="material-symbols-outlined text-[1.1rem]">cloud_upload</span> Use Original</>
+                  )}
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col-reverse sm:flex-row justify-end gap-4 items-center">
+                {mode === 'content' ? (
+                  <button
+                    type="button"
+                    onClick={() => setView('preview')}
+                    disabled={isProcessing}
+                    className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/40 hover:text-primary-text transition-colors disabled:opacity-30 py-2"
+                  >
+                    Back to Preview
+                  </button>
                 ) : (
-                  <>
-                    <span className="material-symbols-outlined text-[1.1rem]">crop</span>
-                    Crop & Upload
-                  </>
+                  <button
+                    type="button"
+                    onClick={onCancel}
+                    disabled={isProcessing}
+                    className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/40 hover:text-primary-text transition-colors disabled:opacity-30 py-2"
+                  >
+                    Discard
+                  </button>
                 )}
-              </button>
-            </div>
+                
+                <button
+                  type="button"
+                  onClick={handleUseOriginal}
+                  disabled={isProcessing}
+                  className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/80 bg-white/5 hover:bg-white/10 transition-colors py-3 px-6 rounded-full border border-white/10"
+                >
+                  Skip Crop
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleApplyCrop}
+                  disabled={isProcessing}
+                  className="w-full sm:w-auto bg-accent text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
+                >
+                  {isProcessing ? (
+                    <><div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" /> Cropping...</>
+                  ) : (
+                    <><span className="material-symbols-outlined text-[1.1rem]">crop</span> Apply Crop</>
+                  )}
+                </button>
+              </div>
+            )}
+            
           </div>
         </motion.div>
       </motion.div>
