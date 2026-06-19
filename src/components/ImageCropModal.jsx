@@ -69,25 +69,25 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-background/95 backdrop-blur-xl"
+        className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-page-surface/95 backdrop-blur-xl"
       >
         <motion.div
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
-          className="relative w-[95vw] md:w-[90vw] max-w-4xl bg-card-bg border border-white/10 rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.9)] flex flex-col max-h-[90vh]"
+          className="relative w-[95vw] md:w-[90vw] max-w-4xl bg-card-surface border border-border-primary/20 rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.9)] flex flex-col max-h-[90vh]"
         >
           {/* Header */}
-          <div className="flex-shrink-0 p-4 md:p-8 border-b border-white/5 flex justify-between items-center bg-card-bg/50 backdrop-blur-md">
+          <div className="flex-shrink-0 p-4 md:p-8 border-b border-border-primary/10 flex justify-between items-center bg-card-surface/50 backdrop-blur-md">
             <div>
-              <span className="font-label text-[10px] tracking-[0.3em] uppercase text-accent mb-1 block italic">Asset Preparation</span>
+              <span className="font-label text-[10px] tracking-[0.3em] uppercase text-accent-primary mb-1 block italic">Asset Preparation</span>
               <h2 className="font-headline font-bold text-xl uppercase tracking-wider text-primary-text">
                 {view === 'preview' ? 'Preview Image' : 'Crop Image'}
               </h2>
             </div>
             <button 
               onClick={onCancel}
-              className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-primary-text/40 hover:text-red-400 hover:bg-white/10 transition-all active:scale-90"
+              className="w-10 h-10 bg-primary-text/5 rounded-full flex items-center justify-center text-primary-text/40 hover:text-red-400 hover:bg-primary-text/10 transition-all active:scale-90"
             >
               <span className="material-symbols-outlined text-[20px]">close</span>
             </button>
@@ -99,7 +99,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
             {view === 'preview' ? (
               // --- PREVIEW VIEW ---
               <div className="flex flex-col items-center p-8 space-y-8">
-                <div className="w-full max-w-2xl bg-black/40 rounded-2xl border border-white/10 p-4 flex items-center justify-center overflow-hidden" style={{ minHeight: '300px' }}>
+                <div className="w-full max-w-2xl bg-primary-text/40 rounded-2xl border border-border-primary/20 p-4 flex items-center justify-center overflow-hidden" style={{ minHeight: '300px' }}>
                   <img src={image} alt="Preview" className="max-w-full max-h-[50vh] object-contain rounded-lg" />
                 </div>
                 
@@ -113,7 +113,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
             ) : (
               // --- CROP VIEW ---
               <div className="flex flex-col h-full">
-                <div className="relative h-[300px] sm:h-[400px] md:h-[500px] flex-shrink-0 bg-[#0a0a0a] border-b border-white/5">
+                <div className="relative h-[300px] sm:h-[400px] md:h-[500px] flex-shrink-0 bg-primary-text/5 border-b border-border-primary/10">
                   <Cropper
                     ref={cropperRef}
                     src={image}
@@ -135,8 +135,8 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
                           onClick={() => setAspect(arr.value)}
                           className={`flex-1 min-w-[80px] py-3 px-2 rounded-xl text-[9px] font-headline font-bold uppercase tracking-widest transition-all ${
                             aspect === arr.value 
-                            ? 'bg-accent text-on-accent shadow-lg shadow-accent/20' 
-                            : 'bg-white/5 text-primary-text/40 hover:bg-white/10 hover:text-primary-text'
+                            ? 'bg-accent-primary text-on-accent shadow-lg shadow-accent-primary/20' 
+                            : 'bg-primary-text/5 text-primary-text/40 hover:bg-primary-text/10 hover:text-primary-text'
                           }`}
                         >
                           {arr.label}
@@ -151,7 +151,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
           </div>
 
           {/* Footer - Fixed Bottom */}
-          <div className="flex-shrink-0 p-6 md:p-8 border-t border-white/5 bg-card-bg/50 backdrop-blur-md">
+          <div className="flex-shrink-0 p-6 md:p-8 border-t border-border-primary/10 bg-card-surface/50 backdrop-blur-md">
             
             {view === 'preview' ? (
               <div className="flex flex-col-reverse sm:flex-row justify-end gap-4 items-center">
@@ -159,7 +159,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
                   type="button"
                   onClick={() => setView('crop')}
                   disabled={isProcessing}
-                  className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/60 hover:text-primary-text transition-colors disabled:opacity-30 py-3 px-6 rounded-full border border-white/10 hover:bg-white/5"
+                  className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/60 hover:text-primary-text transition-colors disabled:opacity-30 py-3 px-6 rounded-full border border-border-primary/20 hover:bg-primary-text/5"
                 >
                   <span className="material-symbols-outlined text-[1rem] mr-2 align-middle">crop</span>
                   Edit / Crop
@@ -168,7 +168,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
                   type="button"
                   onClick={handleUseOriginal}
                   disabled={isProcessing}
-                  className="w-full sm:w-auto bg-accent text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
+                  className="w-full sm:w-auto bg-accent-primary text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
                 >
                   {isProcessing ? (
                     <><div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" /> Processing...</>
@@ -203,7 +203,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
                   type="button"
                   onClick={handleUseOriginal}
                   disabled={isProcessing}
-                  className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/80 bg-white/5 hover:bg-white/10 transition-colors py-3 px-6 rounded-full border border-white/10"
+                  className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/80 bg-primary-text/5 hover:bg-primary-text/10 transition-colors py-3 px-6 rounded-full border border-border-primary/20"
                 >
                   Skip Crop
                 </button>
@@ -212,7 +212,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
                   type="button"
                   onClick={handleApplyCrop}
                   disabled={isProcessing}
-                  className="w-full sm:w-auto bg-accent text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
+                  className="w-full sm:w-auto bg-accent-primary text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
                 >
                   {isProcessing ? (
                     <><div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" /> Cropping...</>

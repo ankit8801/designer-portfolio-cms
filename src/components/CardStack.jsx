@@ -116,8 +116,8 @@ export function CardStack({
         tabIndex={0}
         onKeyDown={onKeyDown}
       >
-        <div className="pointer-events-none absolute inset-x-0 top-6 mx-auto h-48 w-[70%] rounded-full bg-black/5 blur-3xl dark:bg-white/5" aria-hidden="true" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-40 w-[76%] rounded-full bg-black/10 blur-3xl dark:bg-black/30" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-x-0 top-6 mx-auto h-48 w-[70%] rounded-full bg-primary-text/5 blur-3xl dark:bg-primary-text/5" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-40 w-[76%] rounded-full bg-primary-text/10 blur-3xl dark:bg-primary-text/30" aria-hidden="true" />
 
         <div
           className="absolute inset-0 flex items-end justify-center pb-8"
@@ -161,8 +161,8 @@ export function CardStack({
                 <motion.div
                   key={item.id || i}
                   className={cn(
-                    "absolute bottom-0 rounded-3xl border border-white/10 overflow-hidden shadow-2xl",
-                    "will-change-transform select-none bg-card-bg",
+                    "absolute bottom-0 rounded-3xl border border-border-primary/20 overflow-hidden shadow-2xl",
+                    "will-change-transform select-none bg-card-surface",
                     isActive ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"
                   )}
                   style={{
@@ -199,7 +199,7 @@ export function CardStack({
                 <button
                   key={it.id || idx}
                   onClick={() => setActive(idx)}
-                  className={cn("h-2 rounded-full transition-all duration-300", on ? "bg-accent w-8" : "bg-white/20 hover:bg-white/40 w-2")}
+                  className={cn("h-2 rounded-full transition-all duration-300", on ? "bg-accent-primary w-8" : "bg-primary-text/20 hover:bg-primary-text/40 w-2")}
                   aria-label={`Go to ${it.title}`}
                 />
               );
@@ -208,7 +208,7 @@ export function CardStack({
           {activeItem?.id ? (
              <Link
                to={`/projects/${activeItem.id}`}
-               className="text-white/50 hover:text-accent transition ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/5"
+               className="text-secondary-text hover:text-accent-primary transition ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-primary-text/5 hover:bg-primary-text/10 border border-border-primary/10"
                aria-label="Open project details"
              >
                <span className="material-symbols-outlined text-[18px]">open_in_new</span>
@@ -227,22 +227,22 @@ function DefaultFanCard({ item, active }) {
         {item.thumbnail ? (
           <ProtectedImage src={item.thumbnail} alt={item.title} className="h-full w-full object-cover" draggable={false} loading="eager" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-background text-sm text-white/50">
-            <span className="material-symbols-outlined text-6xl text-accent/20">palette</span>
+          <div className="flex h-full w-full items-center justify-center bg-page-surface text-sm text-secondary-text">
+            <span className="material-symbols-outlined text-6xl text-accent-primary/20">palette</span>
           </div>
         )}
       </div>
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary-text/90 via-primary-text/30 to-transparent opacity-80" />
 
       <div className="relative z-10 flex h-full flex-col justify-end p-8">
-        <span className="category-pill self-start mb-3 bg-black/40 backdrop-blur-md">{item.category}</span>
-        <div className="truncate text-2xl md:text-3xl font-bold text-white uppercase tracking-wider mb-2">
+        <span className="category-pill self-start mb-3 bg-primary-text/40 backdrop-blur-md">{item.category}</span>
+        <div className="truncate text-2xl md:text-3xl font-bold text-primary-text uppercase tracking-wider mb-2">
           {item.title}
         </div>
         <AnimatePresence>
           {active && (
-            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="flex items-center gap-2 text-accent mt-2 overflow-hidden">
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="flex items-center gap-2 text-accent-primary mt-2 overflow-hidden">
               <span className="font-label text-[10px] uppercase tracking-[0.2em]">Drag to swipe</span>
               <span className="material-symbols-outlined text-[14px]">swipe</span>
             </motion.div>
@@ -251,7 +251,7 @@ function DefaultFanCard({ item, active }) {
       </div>
       
       {active && (
-         <div className="absolute inset-0 border-[3px] border-accent/20 rounded-3xl pointer-events-none transition-colors duration-500" />
+         <div className="absolute inset-0 border-[3px] border-accent-primary/20 rounded-3xl pointer-events-none transition-colors duration-500" />
       )}
     </div>
   );

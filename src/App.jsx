@@ -14,8 +14,8 @@ const Admin = lazy(() => import('./pages/Admin'))
 
 // Minimal loading fallback
 const PageLoader = () => (
-  <div className="fixed inset-0 flex items-center justify-center bg-background z-[100]">
-    <div className="w-12 h-12 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
+  <div className="fixed inset-0 flex items-center justify-center bg-page-surface z-[100]">
+    <div className="w-12 h-12 border-2 border-accent-primary/20 border-t-accent rounded-full animate-spin" />
   </div>
 )
 

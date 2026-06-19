@@ -362,10 +362,10 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
     const isUploading = status.state === 'uploading';
 
     return (
-      <div key={idx} className="group/block relative bg-background/40 border border-white/5 rounded-2xl overflow-hidden">
+      <div key={idx} className="group/block relative bg-page-surface/40 border border-border-primary/10 rounded-2xl overflow-hidden">
         {/* Block header bar */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-white/2">
-          <span className="font-label text-[9px] tracking-[0.25em] uppercase text-accent/60 flex items-center gap-2">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border-primary/10 bg-primary-text/5">
+          <span className="font-label text-[9px] tracking-[0.25em] uppercase text-accent-primary/60 flex items-center gap-2">
             <span className="material-symbols-outlined text-[14px]">
               {BLOCK_TYPES.find(t => t.type === block.type)?.icon}
             </span>
@@ -373,17 +373,17 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
           </span>
           <div className="flex items-center gap-1">
             <button type="button" onClick={() => moveBlock(idx, -1)} disabled={isFirst || isUploading}
-              className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-primary-text/40 hover:text-primary-text transition-all flex items-center justify-center disabled:opacity-20"
+              className="w-7 h-7 rounded-lg bg-primary-text/5 hover:bg-primary-text/10 text-primary-text/40 hover:text-primary-text transition-all flex items-center justify-center disabled:opacity-20"
               title="Move up">
               <span className="material-symbols-outlined text-[14px]">arrow_upward</span>
             </button>
             <button type="button" onClick={() => moveBlock(idx, 1)} disabled={isLast || isUploading}
-              className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-primary-text/40 hover:text-primary-text transition-all flex items-center justify-center disabled:opacity-20"
+              className="w-7 h-7 rounded-lg bg-primary-text/5 hover:bg-primary-text/10 text-primary-text/40 hover:text-primary-text transition-all flex items-center justify-center disabled:opacity-20"
               title="Move down">
               <span className="material-symbols-outlined text-[14px]">arrow_downward</span>
             </button>
             <button type="button" onClick={() => removeBlock(idx)} disabled={isUploading}
-              className="w-7 h-7 rounded-lg bg-white/5 hover:bg-red-500/20 text-primary-text/40 hover:text-red-400 transition-all flex items-center justify-center disabled:opacity-20"
+              className="w-7 h-7 rounded-lg bg-primary-text/5 hover:bg-red-500/20 text-primary-text/40 hover:text-red-400 transition-all flex items-center justify-center disabled:opacity-20"
               title="Delete block">
               <span className="material-symbols-outlined text-[14px]">delete</span>
             </button>
@@ -399,18 +399,18 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
               onChange={e => updateBlock(idx, { content: e.target.value })}
               disabled={isUploading}
               placeholder="Write your text content here…"
-              className="w-full bg-background/50 border border-white/10 rounded-xl p-3 font-body text-sm text-primary-text placeholder:text-white/10 focus:border-accent focus:outline-none transition-colors resize-none"
+              className="w-full bg-page-surface/50 border border-border-primary/20 rounded-xl p-3 font-body text-sm text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors resize-none"
             />
           )}
 
           {block.type === 'image' && (
             <div className="space-y-3">
-              <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-white/5 border-2 border-dashed border-white/10 hover:border-accent/30 transition-colors flex items-center justify-center group/img">
+              <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-primary-text/5 border-2 border-dashed border-border-primary/20 hover:border-accent-primary/30 transition-colors flex items-center justify-center group/img">
                 {block._preview || block.url ? (
                   <>
                     <img src={block._preview || block.url} className="w-full h-full object-cover opacity-70" alt="Block preview" />
-                    <div className="absolute inset-0 bg-background/50 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="font-headline text-[9px] uppercase tracking-[0.2em] text-primary-text bg-background/80 px-4 py-2 rounded-full">Replace Image</span>
+                    <div className="absolute inset-0 bg-page-surface/50 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="font-headline text-[9px] uppercase tracking-[0.2em] text-primary-text bg-page-surface/80 px-4 py-2 rounded-full">Replace Image</span>
                     </div>
                   </>
                 ) : (
@@ -423,13 +423,13 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
               </div>
               <input type="text" value={block.caption || ''} onChange={e => updateBlock(idx, { caption: e.target.value })} disabled={isUploading}
                 placeholder="Caption (optional)"
-                className="w-full bg-background/50 border border-white/10 rounded-lg p-3 font-body text-xs text-primary-text placeholder:text-white/10 focus:border-accent focus:outline-none transition-colors" />
+                className="w-full bg-page-surface/50 border border-border-primary/20 rounded-lg p-3 font-body text-xs text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors" />
             </div>
           )}
 
           {block.type === 'photo_grid' && (
             <div className="space-y-3">
-              <div className="relative w-full min-h-[80px] rounded-xl overflow-hidden bg-white/5 border-2 border-dashed border-white/10 hover:border-accent/30 transition-colors p-3 flex flex-wrap gap-2 items-center justify-center">
+              <div className="relative w-full min-h-[80px] rounded-xl overflow-hidden bg-primary-text/5 border-2 border-dashed border-border-primary/20 hover:border-accent-primary/30 transition-colors p-3 flex flex-wrap gap-2 items-center justify-center">
                 {(block._previews?.length || block.images?.filter(i => i.url)?.length) ? (
                   <>
                     {(block._previews?.length ? block._previews : block.images.map(i => i.url)).map((src, gIdx) => (
@@ -451,7 +451,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
               {(block.images || []).filter(img => img.url).map((img, gIdx) => (
                 <input key={gIdx} type="text" value={img.caption || ''} onChange={e => updateGridCaption(idx, gIdx, e.target.value)} disabled={isUploading}
                   placeholder={`Caption for image ${gIdx + 1} (optional)`}
-                  className="w-full bg-background/50 border border-white/10 rounded-lg p-2 font-body text-xs text-primary-text placeholder:text-white/10 focus:border-accent focus:outline-none transition-colors" />
+                  className="w-full bg-page-surface/50 border border-border-primary/20 rounded-lg p-2 font-body text-xs text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors" />
               ))}
             </div>
           )}
@@ -460,10 +460,10 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
             <div className="space-y-3">
               <input type="url" value={block.url || ''} onChange={e => updateBlock(idx, { url: e.target.value })} disabled={isUploading}
                 placeholder={block.type === 'video' ? 'YouTube / Vimeo embed URL…' : 'Figma / Spline / Behance embed URL…'}
-                className="w-full bg-background/50 border border-white/10 rounded-xl p-3 font-body text-sm text-primary-text placeholder:text-white/10 focus:border-accent focus:outline-none transition-colors" />
+                className="w-full bg-page-surface/50 border border-border-primary/20 rounded-xl p-3 font-body text-sm text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors" />
               <input type="text" value={block.caption || ''} onChange={e => updateBlock(idx, { caption: e.target.value })} disabled={isUploading}
                 placeholder="Caption (optional)"
-                className="w-full bg-background/50 border border-white/10 rounded-lg p-3 font-body text-xs text-primary-text placeholder:text-white/10 focus:border-accent focus:outline-none transition-colors" />
+                className="w-full bg-page-surface/50 border border-border-primary/20 rounded-lg p-3 font-body text-xs text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors" />
             </div>
           )}
         </div>
@@ -476,14 +476,14 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
       {isOpen && (
         <>
           <motion.div key="overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-background/80 backdrop-blur-md z-[100]" />
+            className="fixed inset-0 bg-page-surface/80 backdrop-blur-md z-[100]" />
 
           <motion.div key="modal"
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] md:w-[90vw] max-w-2xl bg-card-bg border border-white/5 p-6 md:p-10 rounded-[32px] shadow-[0_30px_100px_rgba(0,0,0,0.8)] z-[101] max-h-[90vh] overflow-y-auto"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] md:w-[90vw] max-w-2xl bg-card-surface border border-border-primary/10 p-6 md:p-10 rounded-[32px] shadow-[0_30px_100px_rgba(0,0,0,0.8)] z-[101] max-h-[90vh] overflow-y-auto"
           >
             <ImageCropModal
               isOpen={isCropModalOpen}
@@ -496,13 +496,13 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
               <div>
-                <span className="font-label text-[10px] tracking-[0.3em] uppercase text-accent mb-2 block">Portfolio CMS</span>
+                <span className="font-label text-[10px] tracking-[0.3em] uppercase text-accent-primary mb-2 block">Portfolio CMS</span>
                 <h2 className="font-headline font-extrabold text-2xl uppercase tracking-wider text-primary-text">
                   {initialData ? 'Edit Project' : 'New Project'}
                 </h2>
               </div>
               <button type="button" onClick={handleClose}
-                className="w-10 h-10 bg-white/5 rounded-full text-primary-text/40 hover:bg-white/10 hover:text-red-400 transition-colors flex items-center justify-center"
+                className="w-10 h-10 bg-primary-text/5 rounded-full text-primary-text/40 hover:bg-primary-text/10 hover:text-red-400 transition-colors flex items-center justify-center"
                 aria-label="Close modal">
                 <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
@@ -513,9 +513,9 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
               <div className={`p-4 rounded-xl font-body text-sm mb-6 flex items-center gap-3 ${
                 status.state === 'error'   ? 'bg-red-500/10 text-red-400 border border-red-500/20' :
                 status.state === 'success' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
-                'bg-accent/10 text-accent border border-accent/20'
+                'bg-accent-primary/10 text-accent-primary border border-accent-primary/20'
               }`}>
-                {status.state === 'uploading' && <div className="w-4 h-4 border-2 border-accent border-t-transparent flex-shrink-0 rounded-full animate-spin" />}
+                {status.state === 'uploading' && <div className="w-4 h-4 border-2 border-accent-primary border-t-transparent flex-shrink-0 rounded-full animate-spin" />}
                 {status.message}
               </div>
             )}
@@ -523,19 +523,19 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Title */}
               <div className="space-y-2">
-                <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Project Title <span className="text-accent">*</span></label>
+                <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Project Title <span className="text-accent-primary">*</span></label>
                 <input type="text" value={title} onChange={e => { setTitle(e.target.value); setIsDirty(true); }} required
                   placeholder="e.g. Zara Noir — Brand Identity"
                   disabled={status.state === 'uploading'}
-                  className="w-full bg-background/50 border border-white/10 rounded-xl p-4 font-body text-primary-text placeholder:text-white/10 focus:border-accent focus:outline-none transition-colors" />
+                  className="w-full bg-page-surface/50 border border-border-primary/20 rounded-xl p-4 font-body text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors" />
               </div>
 
               {/* Category + Featured row */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Category <span className="text-accent">*</span></label>
+                  <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Category <span className="text-accent-primary">*</span></label>
                   <select value={category} onChange={e => { setCategory(e.target.value); setIsDirty(true); }} disabled={status.state === 'uploading'}
-                    className="w-full bg-background/50 border border-white/10 rounded-xl p-4 font-body text-sm text-primary-text focus:border-accent focus:outline-none transition-colors appearance-none cursor-pointer">
+                    className="w-full bg-page-surface/50 border border-border-primary/20 rounded-xl p-4 font-body text-sm text-primary-text focus:border-accent-primary focus:outline-none transition-colors appearance-none cursor-pointer">
                     {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
@@ -543,7 +543,7 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
                   <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Visibility</label>
                   <button type="button" onClick={() => { setFeatured(f => !f); setIsDirty(true); }} disabled={status.state === 'uploading'}
                     className={`w-full p-4 rounded-xl border font-headline text-xs uppercase tracking-wider transition-all flex items-center gap-3 ${
-                      featured ? 'border-accent bg-accent/10 text-accent' : 'border-white/10 bg-background/50 text-primary-text/40'
+                      featured ? 'border-accent-primary bg-accent-primary/10 text-accent-primary' : 'border-border-primary/20 bg-page-surface/50 text-primary-text/40'
                     }`}>
                     <span className="material-symbols-outlined text-sm">{featured ? 'star' : 'star_outline'}</span>
                     {featured ? 'Featured' : 'Standard'}
@@ -553,22 +553,22 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
 
               {/* Cover Image */}
               <div className="space-y-2">
-                <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Cover Image <span className="text-accent">*</span></label>
-                <div className="relative w-full aspect-[16/7] rounded-2xl overflow-hidden bg-white/5 border-2 border-dashed border-white/10 hover:border-accent/30 transition-colors flex items-center justify-center group/thumb">
+                <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Cover Image <span className="text-accent-primary">*</span></label>
+                <div className="relative w-full aspect-[16/7] rounded-2xl overflow-hidden bg-primary-text/5 border-2 border-dashed border-border-primary/20 hover:border-accent-primary/30 transition-colors flex items-center justify-center group/thumb">
                   {thumbnailPreview ? (
                     <>
                       <img src={thumbnailPreview} className="absolute inset-0 w-full h-full object-cover opacity-60" alt="Cover preview" />
-                      <div className="absolute inset-0 bg-background/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center z-10">
-                        <span className="font-headline text-[9px] uppercase tracking-[0.2em] text-primary-text bg-background/80 px-4 py-2 rounded-full">Replace Cover</span>
+                      <div className="absolute inset-0 bg-page-surface/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center z-10">
+                        <span className="font-headline text-[9px] uppercase tracking-[0.2em] text-primary-text bg-page-surface/80 px-4 py-2 rounded-full">Replace Cover</span>
                       </div>
                     </>
                   ) : (
                     <div className="flex flex-col items-center gap-3 text-primary-text/30 relative z-10">
-                      <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-accent text-xl">add_photo_alternate</span>
+                      <div className="w-12 h-12 rounded-full bg-accent-primary/10 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-accent-primary text-xl">add_photo_alternate</span>
                       </div>
                       <div className="text-center">
-                        <p className="font-body text-sm"><span className="text-accent font-medium">Click to upload</span> cover image</p>
+                        <p className="font-body text-sm"><span className="text-accent-primary font-medium">Click to upload</span> cover image</p>
                         <p className="font-label text-[9px] uppercase tracking-wider text-primary-text/30 mt-1">JPEG · PNG · WebP</p>
                       </div>
                     </div>
@@ -603,18 +603,18 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
                 {/* Add block button */}
                 <div className="relative" ref={blockMenuRef}>
                   <button type="button" onClick={() => setShowBlockMenu(s => !s)} disabled={status.state === 'uploading'}
-                    className="w-full py-3 rounded-xl border-2 border-dashed border-white/10 hover:border-accent/40 text-primary-text/30 hover:text-accent font-headline text-[10px] uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 disabled:opacity-40">
+                    className="w-full py-3 rounded-xl border-2 border-dashed border-border-primary/20 hover:border-accent-primary/40 text-primary-text/30 hover:text-accent-primary font-headline text-[10px] uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 disabled:opacity-40">
                     <span className="material-symbols-outlined text-[16px]">add</span>
                     Add Block
                   </button>
                   <AnimatePresence>
                     {showBlockMenu && (
                       <motion.div initial={{ opacity: 0, y: -8, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                        className="absolute bottom-full mb-2 left-0 w-full bg-card-bg border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-20">
+                        className="absolute bottom-full mb-2 left-0 w-full bg-card-surface border border-border-primary/20 rounded-2xl overflow-hidden shadow-2xl z-20">
                         {BLOCK_TYPES.map(bt => (
                           <button key={bt.type} type="button" onClick={() => addBlock(bt.type)}
-                            className="w-full flex items-center gap-4 px-5 py-4 hover:bg-white/5 transition-colors text-left group/btn">
-                            <span className="material-symbols-outlined text-accent/60 group-hover/btn:text-accent transition-colors text-[18px]">{bt.icon}</span>
+                            className="w-full flex items-center gap-4 px-5 py-4 hover:bg-primary-text/5 transition-colors text-left group/btn">
+                            <span className="material-symbols-outlined text-accent-primary/60 group-hover/btn:text-accent-primary transition-colors text-[18px]">{bt.icon}</span>
                             <div>
                               <p className="font-headline text-xs font-bold uppercase tracking-wide text-primary-text">{bt.label}</p>
                             </div>
@@ -627,13 +627,13 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
               </div>
 
               {/* Footer actions */}
-              <div className="pt-6 border-t border-white/5 flex flex-col-reverse sm:flex-row justify-end gap-4 items-center">
+              <div className="pt-6 border-t border-border-primary/10 flex flex-col-reverse sm:flex-row justify-end gap-4 items-center">
                 <button type="button" onClick={handleClose} disabled={status.state === 'uploading'}
                   className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/50 hover:text-primary-text transition-colors disabled:opacity-50 py-2">
                   Cancel
                 </button>
                 <button type="submit" disabled={status.state === 'uploading'}
-                  className="w-full sm:w-auto bg-accent text-on-accent px-8 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:hover:scale-100">
+                  className="w-full sm:w-auto bg-accent-primary text-on-accent px-8 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:hover:scale-100">
                   {status.state === 'uploading' ? (
                     <><div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" /> Publishing…</>
                   ) : (

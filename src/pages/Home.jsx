@@ -74,7 +74,7 @@ export default function Home() {
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Ambient background gradient blobs & uploaded image */}
-        <div className="absolute inset-0 -z-10 bg-background">
+        <div className="absolute inset-0 -z-10 bg-page-surface">
           {settings?.homeHero && (
             <motion.div 
               initial={{ opacity: 0 }}
@@ -83,13 +83,13 @@ export default function Home() {
               className="absolute inset-0"
             >
               <ProtectedImage src={settings.homeHero} alt="Hero Background" className="w-full h-full object-cover mix-blend-luminosity" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-page-surface via-page-surface/80 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-page-surface via-page-surface/50 to-transparent" />
             </motion.div>
           )}
-          <div className="absolute top-0 right-0 w-[50%] h-full bg-gradient-to-bl from-section-tone to-transparent opacity-60" />
-          <div className="absolute bottom-0 left-0 w-[40%] h-[60%] bg-gradient-to-tr from-accent/5 to-transparent" />
-          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-[120px]" />
+          <div className="absolute top-0 right-0 w-[50%] h-full bg-gradient-to-bl from-section-surface to-transparent opacity-60" />
+          <div className="absolute bottom-0 left-0 w-[40%] h-[60%] bg-gradient-to-tr from-accent-primary/5 to-transparent" />
+          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-accent-primary/5 rounded-full blur-[120px]" />
           <div className="grid-bg absolute inset-0 opacity-40" />
         </div>
 
@@ -114,8 +114,8 @@ export default function Home() {
           >
             {/* Eyebrow */}
             <motion.div variants={itemVariants} className="flex items-center gap-3 mb-8">
-              <div className="w-8 h-px bg-accent" aria-hidden="true" />
-              <span className="font-label text-[10px] tracking-[0.4em] uppercase text-accent">Creative Design Studio</span>
+              <div className="w-8 h-px bg-accent-primary" aria-hidden="true" />
+              <span className="font-label text-[10px] tracking-[0.4em] uppercase text-accent-primary">Creative Design Studio</span>
             </motion.div>
 
             {/* Main headline */}
@@ -124,7 +124,7 @@ export default function Home() {
               className="font-headline font-extrabold text-[13vw] sm:text-[10vw] lg:text-[7.5vw] xl:text-[112px] leading-[0.85] tracking-tight uppercase text-primary-text mb-6"
             >
               Design<br />
-              <span className="text-accent italic font-light">That</span><br />
+              <span className="text-primary-text italic font-bold">That</span><br />
               Speaks
             </motion.h1>
 
@@ -152,7 +152,7 @@ export default function Home() {
             <motion.div variants={itemVariants} className="flex items-center gap-4 flex-wrap">
               <Link
                 to="/projects"
-                className="group flex items-center gap-3 bg-accent text-on-accent px-8 py-4 rounded-full font-headline font-bold uppercase tracking-[0.1em] shadow-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(200,169,107,0.4)] transition-all duration-300"
+                className="group flex items-center gap-3 bg-accent-primary text-on-accent px-8 py-4 rounded-full font-headline font-bold uppercase tracking-[0.1em] shadow-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(200,169,107,0.4)] transition-all duration-300"
                 aria-label="View design portfolio"
               >
                 View My Work
@@ -160,7 +160,7 @@ export default function Home() {
               </Link>
               <Link
                 to="/contact"
-                className="group flex items-center gap-3 border border-white/20 text-primary-text/70 hover:text-primary-text hover:border-white/40 px-8 py-4 rounded-full font-headline font-bold uppercase tracking-[0.1em] transition-all duration-300"
+                className="group flex items-center gap-3 border border-border-primary/30 text-primary-text/70 hover:text-primary-text hover:border-border-primary/50 px-8 py-4 rounded-full font-headline font-bold uppercase tracking-[0.1em] transition-all duration-300"
                 aria-label="Get in touch for collaboration"
               >
                 Let's Collaborate
@@ -174,19 +174,19 @@ export default function Home() {
             <motion.div
               animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute top-8 right-12 w-32 h-32 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 border border-accent/20 backdrop-blur-sm"
+              className="absolute top-8 right-12 w-32 h-32 rounded-2xl bg-gradient-to-br from-accent-primary/20 to-accent-primary/5 border border-accent-primary/20 backdrop-blur-sm"
               aria-hidden="true"
             />
             <motion.div
               animate={{ y: [0, 15, 0], rotate: [0, -3, 0] }}
               transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-              className="absolute bottom-12 left-8 w-24 h-24 rounded-full bg-gradient-to-br from-white/5 to-transparent border border-white/10"
+              className="absolute bottom-12 left-8 w-24 h-24 rounded-full bg-gradient-to-br from-primary-text/5 to-transparent border border-border-primary/20"
               aria-hidden="true"
             />
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-              className="absolute top-1/2 right-4 w-4 h-16 bg-accent/30 rounded-full"
+              className="absolute top-1/2 right-4 w-4 h-16 bg-accent-primary/30 rounded-full"
               aria-hidden="true"
             />
 
@@ -200,20 +200,20 @@ export default function Home() {
               >
                 <Link
                   to={`/projects/${heroProject.id}`}
-                  className="group relative block w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-white/10"
+                  className="group relative block w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-border-primary/20"
                 >
                   {heroProject.thumbnail ? (
                     <ProtectedImage src={heroProject.thumbnail} alt={heroProject.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" loading="lazy" />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-card-bg to-surface-high flex items-center justify-center">
-                      <span className="material-symbols-outlined text-6xl text-accent/20">palette</span>
+                    <div className="w-full h-full bg-gradient-to-br from-card-surface to-surface-high flex items-center justify-center">
+                      <span className="material-symbols-outlined text-6xl text-accent-primary/20">palette</span>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary-text/80 via-primary-text/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="absolute inset-0 p-8 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                     <span className="category-pill self-start mb-3">{heroProject.category}</span>
-                    <h3 className="font-headline font-bold text-3xl text-white uppercase tracking-wider mb-2">{heroProject.title}</h3>
-                    <div className="flex items-center gap-2 text-white/50 group-hover:text-accent transition-colors">
+                    <h3 className="font-headline font-bold text-3xl text-primary-text uppercase tracking-wider mb-2">{heroProject.title}</h3>
+                    <div className="flex items-center gap-2 text-secondary-text group-hover:text-accent-primary-primary transition-colors">
                       <span className="font-label text-xs uppercase tracking-wider">View Case Study</span>
                       <span className="material-symbols-outlined text-sm">arrow_forward</span>
                     </div>
@@ -232,20 +232,20 @@ export default function Home() {
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
           aria-hidden="true"
         >
-          <div className="w-[1px] h-20 bg-accent/20 relative overflow-hidden">
+          <div className="w-[1px] h-20 bg-accent-primary/20 relative overflow-hidden">
             <motion.div
               animate={{ y: [0, 80, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-              className="absolute top-0 left-0 w-full h-1/2 bg-accent"
+              className="absolute top-0 left-0 w-full h-1/2 bg-accent-primary"
             />
           </div>
-          <span className="font-label text-[9px] uppercase tracking-[0.3em] text-accent/40">Scroll</span>
+          <span className="font-label text-[9px] uppercase tracking-[0.3em] text-accent-primary/40">Scroll</span>
         </motion.div>
       </section>
 
       {/* ── FEATURED PROJECTS STRIP ───────────────────────────────────────── */}
       {featuredProjects.length > 0 && (
-        <section className="py-32 px-6 md:px-12 bg-section-tone">
+        <section className="py-32 px-6 md:px-12 bg-section-surface">
           <div className="max-w-[1400px] mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -255,14 +255,14 @@ export default function Home() {
               className="flex items-end justify-between mb-16"
             >
               <div>
-                <span className="font-label text-[10px] tracking-[0.4em] uppercase text-accent mb-4 block">Portfolio</span>
+                <span className="font-label text-[10px] tracking-[0.4em] uppercase text-accent-primary mb-4 block">Portfolio</span>
                 <h2 className="font-headline font-extrabold text-4xl md:text-6xl uppercase tracking-tighter text-primary-text">
                   Selected <span className="italic font-light opacity-70">Works</span>
                 </h2>
               </div>
               <Link
                 to="/projects"
-                className="hidden md:flex items-center gap-3 font-headline text-[10px] uppercase tracking-[0.2em] text-accent/60 hover:text-accent transition-colors"
+                className="hidden md:flex items-center gap-3 font-headline text-[10px] uppercase tracking-[0.2em] text-accent-primary/60 hover:text-accent-primary transition-colors"
                 aria-label="View all projects"
               >
                 View All <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
@@ -280,22 +280,22 @@ export default function Home() {
                 >
                   <Link
                     to={`/projects/${project.id}`}
-                    className="block group relative aspect-[4/5] rounded-2xl overflow-hidden bg-card-bg border border-white/5 shadow-xl"
+                    className="block group relative aspect-[4/5] rounded-2xl overflow-hidden bg-card-surface border border-border-primary/10 shadow-xl"
                     aria-label={`View project: ${project.title}`}
                   >
                     {project.thumbnail ? (
                       <ProtectedImage src={project.thumbnail} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-card-bg to-surface-high flex items-center justify-center">
-                        <span className="material-symbols-outlined text-4xl text-accent/20">palette</span>
+                      <div className="w-full h-full bg-gradient-to-br from-card-surface to-surface-high flex items-center justify-center">
+                        <span className="material-symbols-outlined text-4xl text-accent-primary/20">palette</span>
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary-text/80 via-primary-text/20 to-transparent gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute inset-0 p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
                       <span className="category-pill self-start">{project.category}</span>
                       <div>
-                        <h3 className="font-headline font-bold text-sm text-white uppercase tracking-wider mb-2">{project.title}</h3>
-                        <div className="flex items-center gap-2 text-white/50">
+                        <h3 className="font-headline font-bold text-sm text-primary-text uppercase tracking-wider mb-2">{project.title}</h3>
+                        <div className="flex items-center gap-2 text-secondary-text">
                           <span className="font-label text-[9px] uppercase tracking-wider">View Case Study</span>
                           <span className="material-symbols-outlined text-[12px]">arrow_forward</span>
                         </div>
@@ -307,7 +307,7 @@ export default function Home() {
             </div>
 
             <div className="mt-12 flex justify-center md:hidden">
-              <Link to="/projects" className="flex items-center gap-3 font-headline text-[10px] uppercase tracking-[0.3em] text-accent border border-accent/30 px-8 py-4 rounded-full hover:bg-accent hover:text-on-accent transition-all duration-300">
+              <Link to="/projects" className="flex items-center gap-3 font-headline text-[10px] uppercase tracking-[0.3em] text-accent-primary border border-accent-primary/30 px-8 py-4 rounded-full hover:bg-accent-primary-primary hover:text-on-accent transition-all duration-300">
                 View All Projects <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
               </Link>
             </div>
@@ -316,7 +316,7 @@ export default function Home() {
       )}
 
       {/* ── DISCIPLINES STRIP ─────────────────────────────────────────────── */}
-      <section className="py-24 px-6 md:px-12 bg-background border-t border-white/5">
+      <section className="py-24 px-6 md:px-12 bg-page-surface border-t border-border-primary/10">
         <div className="max-w-[1400px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -327,7 +327,7 @@ export default function Home() {
           >
             {/* Left: Headline */}
             <div className="md:col-span-1">
-              <span className="font-label text-[10px] tracking-[0.4em] uppercase text-accent mb-4 block">What I Do</span>
+              <span className="font-label text-[10px] tracking-[0.4em] uppercase text-accent-primary mb-4 block">What I Do</span>
               <h2 className="font-headline font-extrabold text-4xl md:text-5xl uppercase tracking-tighter text-primary-text leading-tight">
                 Full<br /><span className="italic font-light opacity-60">spectrum</span><br />design.
               </h2>
@@ -350,9 +350,9 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.06, duration: 0.6, ease: customEase }}
-                  className="bg-card-bg/50 border border-white/5 rounded-2xl p-5 flex flex-col items-start gap-3 group hover:border-accent/30 hover:bg-card-bg transition-all duration-300"
+                  className="bg-card-surface/50 border border-border-primary/10 rounded-2xl p-5 flex flex-col items-start gap-3 group hover:border-accent-primary/30 hover:bg-card-surface transition-all duration-300"
                 >
-                  <span className="material-symbols-outlined text-accent/60 group-hover:text-accent transition-colors text-xl">{item.icon}</span>
+                  <span className="material-symbols-outlined text-accent-primary/60 group-hover:text-accent-primary-primary transition-colors text-xl">{item.icon}</span>
                   <span className="font-headline font-bold text-xs uppercase tracking-wide text-primary-text/70 group-hover:text-primary-text transition-colors">{item.label}</span>
                 </motion.div>
               ))}
@@ -362,7 +362,7 @@ export default function Home() {
       </section>
 
       {/* ── CTA BANNER ────────────────────────────────────────────────────── */}
-      <section className="py-32 px-6 md:px-12 bg-section-tone">
+      <section className="py-32 px-6 md:px-12 bg-section-surface">
         <div className="max-w-[1400px] mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -370,13 +370,13 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 1, ease: customEase }}
           >
-            <span className="font-label text-[10px] tracking-[0.4em] uppercase text-accent mb-6 block">Ready to create?</span>
+            <span className="font-label text-[10px] tracking-[0.4em] uppercase text-accent-primary mb-6 block">Ready to create?</span>
             <h2 className="font-headline font-extrabold text-[8vw] md:text-[5vw] lg:text-[72px] uppercase tracking-tighter text-primary-text leading-[0.9] mb-12">
-              Let's Build<br /><span className="text-accent italic font-light">Something Great</span>
+              Let's Build<br /><span className="text-primary-text italic font-bold">Something Great</span>
             </h2>
             <Link
               to="/contact"
-              className="group inline-flex items-center gap-4 bg-accent text-on-accent px-12 py-5 rounded-full font-headline font-bold uppercase tracking-[0.15em] shadow-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(200,169,107,0.4)] transition-all duration-300"
+              className="group inline-flex items-center gap-4 bg-accent-primary text-on-accent px-12 py-5 rounded-full font-headline font-bold uppercase tracking-[0.15em] shadow-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(200,169,107,0.4)] transition-all duration-300"
               aria-label="Contact to start a project"
             >
               Start a Project

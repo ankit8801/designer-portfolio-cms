@@ -77,7 +77,7 @@ const MediaItem = ({ item, className, onClick }) => {
 
   if (item.type === 'video') {
     return (
-      <div className={`${className} relative overflow-hidden bg-black/10`}>
+      <div className={`${className} relative overflow-hidden bg-primary-text/10`}>
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
@@ -96,12 +96,12 @@ const MediaItem = ({ item, className, onClick }) => {
           <source src={item.url} type="video/mp4" />
         </video>
         {isBuffering && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-            <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          <div className="absolute inset-0 flex items-center justify-center bg-primary-text/10">
+            <div className="w-6 h-6 border-2 border-border-primary/40 border-t-white rounded-full animate-spin" />
           </div>
         )}
-        <div className="absolute top-2 right-2 flex items-center justify-center w-6 h-6 rounded-full bg-black/40 backdrop-blur-sm">
-          <Play className="w-3 h-3 text-white fill-white" />
+        <div className="absolute top-2 right-2 flex items-center justify-center w-6 h-6 rounded-full bg-primary-text/40 backdrop-blur-sm">
+          <Play className="w-3 h-3 text-primary-text fill-white" />
         </div>
       </div>
     );
@@ -135,9 +135,9 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
           stiffness: 400,
           damping: 30
         }}
-        className="fixed inset-0 w-full min-h-screen flex items-center justify-center backdrop-blur-2xl bg-black/90 z-[200] p-4 md:p-8"
+        className="fixed inset-0 w-full min-h-screen flex items-center justify-center backdrop-blur-2xl bg-primary-text/90 z-[200] p-4 md:p-8"
       >
-        <div className="relative w-full max-w-6xl aspect-[16/9] bg-card-bg/50 rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+        <div className="relative w-full max-w-6xl aspect-[16/9] bg-card-surface/50 rounded-3xl overflow-hidden shadow-2xl border border-border-primary/20">
           <AnimatePresence mode="wait">
             <motion.div
               key={selectedItem.id}
@@ -149,7 +149,7 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
             >
               <MediaItem item={selectedItem} className="w-full h-full object-contain" onClick={onClose} />
               
-              <div className="absolute bottom-0 left-0 right-0 p-8 pt-20 bg-gradient-to-t from-black via-black/40 to-transparent">
+              <div className="absolute bottom-0 left-0 right-0 p-8 pt-20 bg-gradient-to-t from-primary-text via-primary-text/40 to-transparent">
                 <h3 className="text-primary-text text-2xl md:text-3xl font-headline font-bold uppercase tracking-tight">
                   {selectedItem.title}
                 </h3>
@@ -161,7 +161,7 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
           </AnimatePresence>
 
           <button
-            className="absolute top-6 right-6 p-4 rounded-full bg-white/5 text-primary-text/40 hover:text-red-400 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-all border border-white/5 active:scale-90 shadow-xl"
+            className="absolute top-6 right-6 p-4 rounded-full bg-primary-text/5 text-primary-text/40 hover:text-red-400 hover:bg-primary-text/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary transition-all border border-border-primary/10 active:scale-90 shadow-xl"
             onClick={onClose}
             aria-label="Close gallery"
           >
@@ -185,7 +185,7 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
           className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[300] touch-none"
         >
           <motion.div
-            className="relative rounded-[24px] bg-card-bg/40 backdrop-blur-3xl border border-white/10 shadow-2xl p-2 cursor-grab active:cursor-grabbing"
+            className="relative rounded-[24px] bg-card-surface/40 backdrop-blur-3xl border border-border-primary/20 shadow-2xl p-2 cursor-grab active:cursor-grabbing"
           >
             <div className="flex items-center -space-x-2 px-1">
               {mediaItems.map((item, index) => (
@@ -204,8 +204,8 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
                     rounded-xl overflow-hidden 
                     cursor-pointer
                     ${selectedItem.id === item.id
-                      ? 'ring-2 ring-accent shadow-2xl scale-110'
-                      : 'hover:ring-2 hover:ring-white/20'}
+                      ? 'ring-2 ring-accent-primary shadow-2xl scale-110'
+                      : 'hover:ring-2 hover:ring-border-primary/30'}
                   `}
                   initial={{ rotate: index % 2 === 0 ? -10 : 10 }}
                   animate={{
@@ -224,7 +224,7 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
                   {selectedItem.id === item.id && (
                     <motion.div
                       layoutId="activeGlow"
-                      className="absolute -inset-2 bg-accent/20 blur-xl"
+                      className="absolute -inset-2 bg-accent-primary/20 blur-xl"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.2 }}
@@ -253,7 +253,7 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
     <div className="w-full">
       <div className="mb-12 text-center">
         <motion.span
-          className="font-label text-[10px] tracking-[0.4em] uppercase text-accent mb-4 block"
+          className="font-label text-[10px] tracking-[0.4em] uppercase text-accent-primary mb-4 block"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
@@ -306,7 +306,7 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
               <motion.div
                 key={item.id}
                 layoutId={`media-${item.id}`}
-                className={`relative overflow-hidden rounded-2xl cursor-grab active:cursor-grabbing border border-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${item.span}`}
+                className={`relative overflow-hidden rounded-2xl cursor-grab active:cursor-grabbing border border-border-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary ${item.span}`}
                 onClick={() => !isDragging && setSelectedItem(item)}
                 tabIndex={0}
                 onKeyDown={(e) => {
@@ -361,7 +361,7 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
                   whileHover={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary-text/90 via-primary-text/20 to-transparent" />
                   <h3 className="relative text-primary-text text-sm font-headline font-bold uppercase tracking-wider line-clamp-1">
                     {item.title}
                   </h3>

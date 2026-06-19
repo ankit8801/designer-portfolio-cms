@@ -82,10 +82,10 @@ export default function Services() {
             transition={{ duration: 1, ease: customEase }}
             className="w-full md:w-1/2 relative group"
           >
-            <div className="absolute -inset-4 bg-accent/5 blur-3xl rounded-full opacity-50" />
+            <div className="absolute -inset-4 bg-accent-primary/5 blur-3xl rounded-full opacity-50" />
             <ProtectedImage
               alt="Creative workspace showcasing design tools and process"
-              className="relative z-10 w-full h-auto object-contain mix-blend-lighten transform group-hover:scale-105 transition-transform duration-700 ease-out"
+              className="relative z-10 w-full h-auto object-contain transform group-hover:scale-105 transition-transform duration-700 ease-out"
               src={modelImage}
               decoding="async"
             />
@@ -103,18 +103,18 @@ export default function Services() {
               Full-spectrum design for brands that want to stand out.
             </p>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-headline font-light leading-[1.05] tracking-tight text-primary-text">
-              From <span className="text-accent">concept</span> to{' '}
-              <span className="text-green-accent">launch</span>, every pixel with purpose.
+              From <span className="text-primary-text italic font-bold">concept</span> to{' '}
+              <span className="text-primary-text italic font-bold">launch</span>, every pixel with purpose.
             </h1>
             <div className="flex items-center gap-6 pt-4">
               <Link to="/projects" className="flex items-center gap-4 group" aria-label="Explore design portfolio">
                 <motion.span
                   whileHover={{ scale: 1.1, backgroundColor: 'var(--color-accent)' }}
-                  className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center transition-all duration-300"
+                  className="w-14 h-14 rounded-full border border-border-primary/30 flex items-center justify-center transition-all duration-300"
                 >
                   <span className="material-symbols-outlined text-primary-text group-hover:text-on-accent transition-colors" aria-hidden="true">arrow_forward</span>
                 </motion.span>
-                <span className="font-headline uppercase tracking-[0.3em] text-[10px] font-extrabold text-primary-text group-hover:text-accent transition-colors">View Projects</span>
+                <span className="font-headline uppercase tracking-[0.3em] text-[10px] font-extrabold text-primary-text group-hover:text-accent-primary-primary transition-colors">View Projects</span>
               </Link>
             </div>
           </motion.div>
@@ -126,7 +126,7 @@ export default function Services() {
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.5, ease: customEase }}
-          className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-20 origin-left"
+          className="w-full h-px bg-gradient-to-r from-transparent via-primary-text/10 to-transparent mb-20 origin-left"
           aria-hidden="true"
         />
 
@@ -169,7 +169,7 @@ export default function Services() {
             transition={{ duration: 0.7, ease: customEase }}
             className="mb-12"
           >
-            <span className="font-label text-[10px] uppercase tracking-[0.4em] text-accent mb-3 block">What I Offer</span>
+            <span className="font-label text-[10px] uppercase tracking-[0.4em] text-accent-primary mb-3 block">What I Offer</span>
             <h2 className="font-headline font-extrabold text-4xl md:text-5xl uppercase tracking-tighter text-primary-text">
               Services
             </h2>
@@ -183,10 +183,10 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.7, ease: customEase }}
-                className="group bg-card-bg/40 border border-white/5 rounded-2xl p-8 hover:border-accent/20 hover:bg-card-bg/70 transition-all duration-400 flex flex-col gap-5"
+                className="group bg-card-surface/40 border border-border-primary/10 rounded-2xl p-8 hover:border-accent-primary/20 hover:bg-card-surface/70 transition-all duration-400 flex flex-col gap-5"
               >
-                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                  <span className="material-symbols-outlined text-accent text-xl">{service.icon}</span>
+                <div className="w-12 h-12 rounded-xl bg-accent-primary/10 flex items-center justify-center group-hover:bg-accent-primary-primary-primary/20 transition-colors">
+                  <span className="material-symbols-outlined text-accent-primary text-xl">{service.icon}</span>
                 </div>
                 <div className="flex-1">
                   <h3 className="font-headline font-bold text-lg uppercase tracking-wide text-primary-text mb-3">{service.title}</h3>
@@ -194,7 +194,7 @@ export default function Services() {
                 </div>
                 <Link
                   to={`/projects?category=${encodeURIComponent(service.category)}`}
-                  className="font-label text-[9px] uppercase tracking-[0.2em] text-accent/40 group-hover:text-accent transition-colors flex items-center gap-2"
+                  className="font-label text-[9px] uppercase tracking-[0.2em] text-accent-primary/40 group-hover:text-accent-primary-primary transition-colors flex items-center gap-2"
                   aria-label={`View ${service.title} projects`}
                 >
                   View Work <span className="material-symbols-outlined text-[12px]">arrow_forward</span>
@@ -210,12 +210,12 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: customEase }}
-          className="text-center py-16 border-t border-white/5"
+          className="text-center py-16 border-t border-border-primary/10"
         >
           <p className="font-body text-xl text-primary-text/50 mb-8">Have a project in mind?</p>
           <Link
             to="/contact"
-            className="group inline-flex items-center gap-4 bg-accent text-on-accent px-10 py-5 rounded-full font-headline font-bold uppercase tracking-[0.15em] shadow-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(200,169,107,0.4)] transition-all duration-300"
+            className="group inline-flex items-center gap-4 bg-accent-primary text-on-accent px-10 py-5 rounded-full font-headline font-bold uppercase tracking-[0.15em] shadow-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(200,169,107,0.4)] transition-all duration-300"
             aria-label="Get in touch to discuss your project"
           >
             Let's Work Together

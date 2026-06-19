@@ -101,7 +101,7 @@ function EmbedBlock({ block }) {
   return (
     <div className="max-w-5xl mx-auto">
       <figure>
-        <div className="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-surface-lowest border border-white/5">
+        <div className="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-surface-lowest border border-border-primary/10">
           <iframe
             src={block.url}
             title={block.caption || 'Embed'}
@@ -163,8 +163,8 @@ export default function ProjectDetails() {
     return (
       <main className="min-h-screen pt-48 pb-24 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-8 h-8 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
-          <span className="font-headline font-bold uppercase tracking-widest text-accent/50 text-xs">Loading…</span>
+          <div className="w-8 h-8 border-2 border-accent-primary/20 border-t-accent rounded-full animate-spin" />
+          <span className="font-headline font-bold uppercase tracking-widest text-primary-text/50 text-xs">Loading…</span>
         </div>
       </main>
     )
@@ -173,10 +173,10 @@ export default function ProjectDetails() {
   if (!project) {
     return (
       <main className="min-h-screen pt-48 pb-24 px-8 flex flex-col items-center justify-center text-center">
-        <span className="material-symbols-outlined text-5xl text-accent/30 mb-6">search_off</span>
+        <span className="material-symbols-outlined text-5xl text-accent-primary/30 mb-6">search_off</span>
         <h1 className="font-headline font-extrabold text-4xl mb-4 text-primary-text uppercase">Project Not Found</h1>
         <p className="font-body text-primary-text/50 mb-8 max-w-md">This project doesn't exist in the current portfolio.</p>
-        <Link to="/projects" className="px-8 py-3 rounded-full border border-accent text-accent font-headline text-xs tracking-widest hover:bg-accent hover:text-on-accent transition-all uppercase">
+        <Link to="/projects" className="px-8 py-3 rounded-full border border-accent-primary text-accent-primary font-headline text-xs tracking-widest hover:bg-accent-primary-primary hover:text-on-accent transition-all uppercase">
           Return to Projects
         </Link>
       </main>
@@ -208,7 +208,7 @@ export default function ProjectDetails() {
               transition={{ duration: 0.6 }}
               className="flex items-center gap-3 mb-6"
             >
-              <Link to="/projects" className="font-label text-[9px] uppercase tracking-[0.3em] text-primary-text/30 hover:text-accent transition-colors flex items-center gap-2">
+              <Link to="/projects" className="font-label text-[9px] uppercase tracking-[0.3em] text-primary-text/30 hover:text-accent-primary transition-colors flex items-center gap-2">
                 <span className="material-symbols-outlined text-[14px]">arrow_back</span>
                 Projects
               </Link>
@@ -233,12 +233,12 @@ export default function ProjectDetails() {
 
           {/* Scroll indicator */}
           <div className="hidden lg:flex flex-col items-center gap-4 pb-4" aria-hidden="true">
-            <span className="vertical-text font-label text-[9px] tracking-[0.3em] uppercase text-accent/30">SCROLL TO EXPLORE</span>
-            <div className="w-px h-24 bg-accent/20 relative overflow-hidden">
+            <span className="vertical-text font-label text-[9px] tracking-[0.3em] uppercase text-accent-primary/30">SCROLL TO EXPLORE</span>
+            <div className="w-px h-24 bg-accent-primary/20 relative overflow-hidden">
               <motion.div
                 animate={{ y: [0, 96, 0] }}
                 transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                className="absolute top-0 left-0 w-full h-1/2 bg-accent"
+                className="absolute top-0 left-0 w-full h-1/2 bg-accent-primary"
               />
             </div>
           </div>
@@ -261,7 +261,7 @@ export default function ProjectDetails() {
               alt={`Cover image for ${project.title}`}
               decoding="async"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-page-surface/60 via-transparent to-transparent" />
           </motion.div>
         </section>
       )}
@@ -288,10 +288,10 @@ export default function ProjectDetails() {
       )}
 
       {/* ── Next Project CTA ─────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 md:px-12 bg-section-tone border-t border-white/5">
+      <section className="py-24 px-6 md:px-12 bg-section-surface border-t border-border-primary/10">
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
-            <span className="font-label text-[10px] uppercase tracking-[0.4em] text-accent/50 mb-2 block">Continue Exploring</span>
+            <span className="font-label text-[10px] uppercase tracking-[0.4em] text-accent-primary/50 mb-2 block">Continue Exploring</span>
             <h2 className="font-headline font-extrabold text-3xl md:text-5xl uppercase tracking-tighter text-primary-text">
               Next Project
             </h2>
@@ -299,7 +299,7 @@ export default function ProjectDetails() {
           {nextProject ? (
             <Link
               to={`/projects/${nextProject.id}`}
-              className="group flex items-center gap-6 bg-card-bg/50 border border-white/5 rounded-2xl p-4 hover:border-accent/20 transition-all duration-400 min-w-[280px]"
+              className="group flex items-center gap-6 bg-card-surface/50 border border-border-primary/10 rounded-2xl p-4 hover:border-accent-primary/20 transition-all duration-400 min-w-[280px]"
               aria-label={`View next project: ${nextProject.title}`}
             >
               {nextProject.thumbnail && (
@@ -311,12 +311,12 @@ export default function ProjectDetails() {
                 <span className="category-pill text-[8px] mb-2 inline-block">{nextProject.category}</span>
                 <p className="font-headline font-bold text-sm uppercase tracking-wide text-primary-text line-clamp-2">{nextProject.title}</p>
               </div>
-              <span className="material-symbols-outlined text-accent/30 group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0">arrow_forward</span>
+              <span className="material-symbols-outlined text-accent-primary/30 group-hover:text-accent-primary-primary group-hover:translate-x-1 transition-all shrink-0">arrow_forward</span>
             </Link>
           ) : (
             <Link
               to="/projects"
-              className="group flex items-center gap-3 font-headline text-[11px] uppercase tracking-[0.2em] text-accent/60 hover:text-accent transition-colors"
+              className="group flex items-center gap-3 font-headline text-[11px] uppercase tracking-[0.2em] text-accent-primary/60 hover:text-accent-primary transition-colors"
               aria-label="View all projects"
             >
               View All Projects

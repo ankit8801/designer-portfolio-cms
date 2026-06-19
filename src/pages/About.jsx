@@ -56,18 +56,18 @@ To Devendra, design is the intersection of creativity and communication. Every p
                 decoding="async"
               />
             </div>
-            <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-accent/5 rounded-full blur-[100px] -z-10" />
+            <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-accent-primary/5 rounded-full blur-[100px] -z-10" />
             {/* Floating badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.8, duration: 0.6 }}
-              className="absolute -right-6 top-12 bg-card-bg/90 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-2xl"
+              className="absolute -right-6 top-12 bg-card-surface/90 backdrop-blur-xl border border-border-primary/20 rounded-2xl p-4 shadow-2xl"
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-accent text-[16px]">palette</span>
+                <div className="w-8 h-8 rounded-full bg-accent-primary/20 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-accent-primary text-[16px]">palette</span>
                 </div>
                 <div>
                   <p className="font-headline font-bold text-[10px] uppercase tracking-wide text-primary-text">Designer</p>
@@ -86,9 +86,9 @@ To Devendra, design is the intersection of creativity and communication. Every p
             className="flex flex-col space-y-12"
           >
             <div className="space-y-6">
-              <span className="text-[0.75rem] uppercase tracking-[0.3em] text-accent font-bold block font-headline">_______________</span>
+              <span className="text-[0.75rem] uppercase tracking-[0.3em] text-accent-primary font-bold block font-headline">_______________</span>
               <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-primary-text leading-[1.05] font-headline uppercase">
-                The <span className="italic text-accent">Designer</span>
+                The <span className="italic text-primary-text">Designer</span>
               </h1>
             </div>
 
@@ -109,7 +109,7 @@ Devendra Surve is an emerging graphic designer currently pursuing his fourth yea
             <div className="grid grid-cols-2 gap-3">
               {['Brand Identity', 'UI / UX Design', 'Packaging Design', 'Logo Systems', 'Social Media', 'Motion Design'].map(d => (
                 <div key={d} className="flex items-center gap-2">
-                  <div className="w-1 h-1 rounded-full bg-accent" aria-hidden="true" />
+                  <div className="w-1 h-1 rounded-full bg-accent-primary" aria-hidden="true" />
                   <span className="font-label text-[10px] uppercase tracking-[0.15em] text-primary-text/50">{d}</span>
                 </div>
               ))}
@@ -121,9 +121,9 @@ Devendra Surve is an emerging graphic designer currently pursuing his fourth yea
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              className="pt-8 border-t border-white/10 flex flex-col space-y-2"
+              className="pt-8 border-t border-border-primary/20 flex flex-col space-y-2"
             >
-              <span className="signature-font text-5xl text-accent opacity-90 select-none">Devendra Surve</span>
+              <span className="signature-font text-5xl text-primary-text opacity-90 select-none">Devendra Surve</span>
               <span className="text-[0.65rem] uppercase tracking-[0.2em] text-primary-text/40 font-headline font-bold">
                 Graphic Designer
               </span>
@@ -133,7 +133,7 @@ Devendra Surve is an emerging graphic designer currently pursuing his fourth yea
       </main>
 
       {/* ── SECTION 2: Design Philosophy ───────────────────────────────────── */}
-      <section className="px-6 md:px-12 lg:px-24 py-12" style={{ backgroundColor: '#F5F2EA', color: '#171412' }}>
+      <section className="px-6 md:px-12 lg:px-24 py-12 bg-section-surface text-primary-text">
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -141,7 +141,7 @@ Devendra Surve is an emerging graphic designer currently pursuing his fourth yea
           transition={{ duration: 1, ease: customEase }}
           className="max-w-7xl mx-auto grid grid-cols-12 gap-8 items-center"
         >
-          <div className="col-span-12 lg:col-span-7 h-[400px] lg:h-[500px] overflow-hidden rounded-2xl shadow-xl" style={{ backgroundColor: '#1F1208' }}>
+          <div className="col-span-12 lg:col-span-7 h-[400px] lg:h-[500px] overflow-hidden rounded-2xl shadow-xl bg-primary-text/5">
             <ProtectedImage
               alt="A detail shot illustrating the design philosophy — precision, craft, and visual rhythm"
               className="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity duration-700"
@@ -156,19 +156,19 @@ Devendra Surve is an emerging graphic designer currently pursuing his fourth yea
             transition={{ delay: 0.3, duration: 0.8 }}
             className="col-span-12 lg:col-span-5 flex flex-col space-y-6 lg:pl-12"
           >
-            <h3 className="text-2xl lg:text-3xl font-bold tracking-tight font-headline" style={{ color: '#171412' }}>
+            <h3 className="text-2xl lg:text-3xl font-bold tracking-tight font-headline text-primary-text">
               01. Design Philosophy
             </h3>
-            <p className="max-w-md font-body text-lg leading-relaxed" style={{ color: '#8B7D6B' }}>
+            <p className="max-w-md font-body text-lg leading-relaxed text-secondary-text">
               Design begins with understanding — not just the brief, but the emotion behind it. Every project is an exercise in restraint: knowing what to include, what to strip away, and how to make what remains feel inevitable.
             </p>
-            <div className="w-12 h-1" style={{ backgroundColor: '#C8A96B', opacity: 0.3 }} aria-hidden="true" />
+            <div className="w-12 h-1 bg-accent-primary/30" aria-hidden="true" />
           </motion.div>
         </motion.div>
       </section>
 
       {/* ── SECTION 3: Process & Craft ──────────────────────────────────────── */}
-      <section className="px-8 md:px-12 lg:px-24 py-24 bg-section-tone">
+      <section className="px-8 md:px-12 lg:px-24 py-24 bg-section-surface">
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -197,10 +197,10 @@ Devendra Surve is an emerging graphic designer currently pursuing his fourth yea
             <p className="text-primary-text/60 max-w-md font-body text-lg leading-relaxed">
               Every great design is the result of relentless iteration. From rough sketches to refined systems, the process is where the real work happens — testing, questioning, and refining until the solution feels not just correct, but right.
             </p>
-            <div className="w-12 h-1 bg-accent/30" aria-hidden="true" />
+            <div className="w-12 h-1 bg-accent-primary/30" aria-hidden="true" />
             <Link
               to="/projects"
-              className="group flex items-center gap-3 font-headline text-[10px] uppercase tracking-[0.2em] text-accent/60 hover:text-accent transition-colors w-fit"
+              className="group flex items-center gap-3 font-headline text-[10px] uppercase tracking-[0.2em] text-accent-primary/60 hover:text-accent-primary transition-colors w-fit"
               aria-label="View portfolio"
             >
               View Portfolio

@@ -14,9 +14,9 @@ const projectOptions = [
 ]
 
 const contactInfo = [
-  { icon: 'location_on', label: 'Studio',     detail: 'Mumbai, India' },
-  { icon: 'mail',        label: 'Email',      detail: 'devendrasurve@gmail.com' },
-  { icon: 'schedule',    label: 'Availability', detail: 'Open to projects for 2025' },
+  { icon: 'location_on', label: 'Studio',     detail: 'karjat, Maharashtra, India' },
+  { icon: 'mail',        label: 'Email',      detail: 'dsurve415@gmail.com' },
+  { icon: 'schedule',    label: 'Availability', detail: 'Open to projects for 2026' },
 ]
 
 export default function Contact() {
@@ -52,7 +52,7 @@ export default function Contact() {
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="font-label text-[10px] tracking-[0.3em] uppercase text-accent mb-4 block"
+            className="font-label text-[10px] tracking-[0.3em] uppercase text-accent-primary mb-4 block"
           >
             Get in Touch
           </motion.span>
@@ -63,7 +63,7 @@ export default function Contact() {
             className="font-headline font-extrabold text-6xl md:text-8xl leading-[0.9] tracking-tighter uppercase text-primary-text"
           >
             LET'S CREATE <br />
-            <span className="italic font-light text-accent">SOMETHING GREAT</span>
+            <span className="italic font-light text-accent-primary">SOMETHING GREAT</span>
           </motion.h1>
         </header>
 
@@ -82,11 +82,11 @@ export default function Contact() {
             <div className="flex flex-col gap-8">
               {contactInfo.map(info => (
                 <div key={info.label} className="flex items-start gap-6 group">
-                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-on-accent transition-all duration-300">
+                  <div className="w-12 h-12 rounded-full border border-border-primary/20 flex items-center justify-center text-accent-primary group-hover:bg-accent-primary-primary-primary group-hover:text-on-accent transition-all duration-300">
                     <span className="material-symbols-outlined">{info.icon}</span>
                   </div>
                   <div>
-                    <span className="font-label text-[10px] tracking-[0.2em] uppercase text-accent/60 block mb-1">{info.label}</span>
+                    <span className="font-label text-[10px] tracking-[0.2em] uppercase text-accent-primary/60 block mb-1">{info.label}</span>
                     <p className="font-body text-lg text-primary-text">{info.detail}</p>
                   </div>
                 </div>
@@ -94,14 +94,22 @@ export default function Contact() {
             </div>
 
             {/* Social links placeholder */}
-            <div className="flex gap-4 pt-4">
-              {['Behance', 'Dribbble', 'Instagram', 'LinkedIn'].map(s => (
-                <span
-                  key={s}
-                  className="font-headline text-[9px] uppercase tracking-[0.2em] text-primary-text/20 border border-white/10 px-4 py-2 rounded-full"
+            <div className="flex flex-wrap gap-4 pt-4">
+              {[
+                { name: 'Behance', url: '#' },
+                { name: 'Dribbble', url: '#' },
+                { name: 'Instagram', url: 'https://www.instagram.com/devendra__15_?igsh=MXhubTlwdmpzeHpseA==' },
+                { name: 'LinkedIn', url: '#' }
+              ].map(s => (
+                <a
+                  key={s.name}
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-headline text-[9px] uppercase tracking-[0.2em] text-primary-text/70 hover:text-primary-text hover:border-border-primary/50 hover:bg-primary-text/5 transition-all border border-border-primary/20 px-4 py-2 rounded-full cursor-pointer"
                 >
-                  {s}
-                </span>
+                  {s.name}
+                </a>
               ))}
             </div>
           </motion.div>
@@ -111,13 +119,13 @@ export default function Contact() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: customEase }}
-            className="bg-card-bg/40 backdrop-blur-xl border border-white/5 p-8 md:p-12 rounded-2xl shadow-2xl flex flex-col gap-8 relative"
+            className="bg-card-surface/40 backdrop-blur-xl border border-border-primary/10 p-8 md:p-12 rounded-2xl shadow-2xl flex flex-col gap-8 relative"
             onSubmit={handleSubmit}
           >
             {status.message && (
               <div className={`p-4 rounded-lg font-body text-sm ${
                 status.state === 'success'
-                  ? 'bg-accent/10 text-accent border border-accent/20'
+                  ? 'bg-accent-primary/10 text-accent-primary border border-accent-primary/20'
                   : 'bg-red-500/10 text-red-400 border border-red-500/20'
               }`}>
                 {status.message}
@@ -130,7 +138,7 @@ export default function Contact() {
                 <input
                   id="name" type="text" value={formData.name} onChange={handleChange}
                   placeholder="Your name" required disabled={status.state === 'submitting'}
-                  className="bg-background/50 border border-white/10 rounded-lg p-4 font-body text-primary-text placeholder:text-white/10 focus:border-accent focus:outline-none transition-colors"
+                  className="bg-page-surface/50 border border-border-primary/20 rounded-lg p-4 font-body text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -138,7 +146,7 @@ export default function Contact() {
                 <input
                   id="email" type="email" value={formData.email} onChange={handleChange}
                   placeholder="you@email.com" required disabled={status.state === 'submitting'}
-                  className="bg-background/50 border border-white/10 rounded-lg p-4 font-body text-primary-text placeholder:text-white/10 focus:border-accent focus:outline-none transition-colors"
+                  className="bg-page-surface/50 border border-border-primary/20 rounded-lg p-4 font-body text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -158,7 +166,7 @@ export default function Contact() {
                 id="message" rows={4} value={formData.message} onChange={handleChange}
                 placeholder="Tell me about your project, timeline, and what you're hoping to create…"
                 required disabled={status.state === 'submitting'}
-                className="bg-background/50 border border-white/10 rounded-lg p-4 font-body text-primary-text placeholder:text-white/10 focus:border-accent focus:outline-none transition-colors resize-none"
+                className="bg-page-surface/50 border border-border-primary/20 rounded-lg p-4 font-body text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors resize-none"
               />
             </div>
 
@@ -167,7 +175,7 @@ export default function Contact() {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={status.state === 'submitting'}
-              className="bg-accent text-on-accent font-headline font-bold uppercase tracking-[0.2em] py-5 rounded-full transition-all shadow-xl mt-4 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-3"
+              className="bg-accent-primary text-on-accent font-headline font-bold uppercase tracking-[0.2em] py-5 rounded-full transition-all shadow-xl mt-4 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-3"
               aria-label="Send your message"
             >
               {status.state === 'submitting' ? (

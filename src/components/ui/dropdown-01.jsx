@@ -42,8 +42,8 @@ const Dropdown = ({ options, value, onChange, label, disabled }) => {
           disabled={disabled}
           className={`w-full px-4 py-4 rounded-lg border transition-all duration-300 text-left flex items-center justify-between group h-[58px] ${
             isOpen 
-              ? 'bg-background border-accent ring-1 ring-accent/20' 
-              : 'bg-background/50 border-white/10 hover:border-white/20'
+              ? 'bg-page-surface border-accent-primary ring-1 ring-accent-primary/20' 
+              : 'bg-page-surface/50 border-border-primary/20 hover:border-border-primary/30'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
         >
           <span className={`font-body text-base ${value ? 'text-primary-text' : 'text-primary-text/40'}`}>
@@ -52,7 +52,7 @@ const Dropdown = ({ options, value, onChange, label, disabled }) => {
           <motion.div
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.3 }}
-            className="text-primary-text/40 group-hover:text-accent transition-colors"
+            className="text-primary-text/40 group-hover:text-accent-primary-primary transition-colors"
           >
             <ChevronDown className="w-5 h-5" />
           </motion.div>
@@ -66,7 +66,7 @@ const Dropdown = ({ options, value, onChange, label, disabled }) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute w-full mt-2 rounded-xl border border-white/10 overflow-hidden shadow-2xl bg-[#0D0704] z-[100] backdrop-blur-xl"
+              className="absolute w-full mt-2 rounded-xl border border-border-primary/20 overflow-hidden shadow-2xl bg-card-surface z-[100] backdrop-blur-xl"
             >
               <div className="py-2">
                 {options.map((option, index) => (
@@ -79,8 +79,8 @@ const Dropdown = ({ options, value, onChange, label, disabled }) => {
                     onClick={() => handleSelect(option)}
                     className={`w-full px-5 py-3.5 text-left transition-all duration-200 flex items-center justify-between group font-body text-sm ${
                       value === option.value
-                        ? 'bg-accent/10 text-accent'
-                        : 'text-primary-text/70 hover:bg-white/5 hover:text-white'
+                        ? 'bg-accent-primary/10 text-accent-primary'
+                        : 'text-primary-text/70 hover:bg-primary-text/5 hover:text-primary-text'
                     }`}
                   >
                     <div>

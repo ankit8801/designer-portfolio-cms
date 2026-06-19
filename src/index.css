@@ -5,17 +5,19 @@
    ============================================ */
 
 @theme {
-  /* Color Palette */
-  --color-background: #0D0704;
-  --color-section-tone: #1F1208;
-  --color-card-bg: #2A1A10;
-  --color-primary-text: #E8E6E3;
-  --color-accent: #C8A96B;
-  --color-on-accent: #0D0704;
-  --color-surface-high: #362519;
-  --color-surface-highest: #423124;
-  --color-surface-lowest: #080402;
-  --color-green-accent: #8FB399;
+  /* Semantic Color Palette - Premium Designer Light Theme */
+  --color-page-surface: #FAF9F6;
+  --color-section-surface: #EFE7DD;
+  --color-card-surface: #FAF9F6;
+  --color-primary-text: #1A1A1A;
+  --color-secondary-text: #7A7A7A;
+  --color-accent-primary: #C8A97E;
+  --color-on-accent: #1A1A1A;
+  --color-border-primary: #1A1A1A; /* Used with opacity for borders */
+  --color-success: #285E42;
+  --color-error: #B02020;
+  --color-warning: #B36B00;
+  --focus-ring: #1A1A1A;
 
   /* Font Families */
   --font-headline: "Manrope", sans-serif;
@@ -34,7 +36,7 @@
    ============================================ */
 
 body {
-  background-color: var(--color-background);
+  background-color: var(--color-page-surface);
   color: var(--color-primary-text);
   font-family: var(--font-body);
   overflow-x: hidden;
@@ -43,7 +45,7 @@ body {
 }
 
 ::selection {
-  background-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  background-color: color-mix(in srgb, var(--color-accent-primary) 30%, transparent);
 }
 
 /* ============================================
@@ -66,29 +68,43 @@ body {
   text-orientation: mixed;
 }
 
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* ============================================
+   Accessibility & Focus States
+   ============================================ */
+*:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
 .signature-font {
   font-family: serif;
   font-style: italic;
 }
 
 .tonal-gradient {
-  background: linear-gradient(180deg, #0D0704 0%, #1F1208 100%);
+  background: linear-gradient(180deg, var(--color-page-surface) 0%, var(--color-section-surface) 100%);
 }
 
 .glass-card {
   backdrop-filter: blur(24px);
-  background: rgba(13, 7, 4, 0.7);
+  background: rgba(250, 249, 246, 0.7); /* FAF9F6 with opacity */
 }
 
 .grid-bg {
-  background-image: radial-gradient(circle at 1px 1px, rgba(200, 169, 107, 0.05) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(26, 26, 26, 0.05) 1px, transparent 0); /* 1A1A1A primary-text */
   background-size: 40px 40px;
 }
 
 .scroll-path {
   width: 1px;
   height: 100px;
-  background: linear-gradient(to bottom, transparent, #C8A96B, transparent);
+  background: linear-gradient(to bottom, transparent, var(--color-accent-primary), transparent);
 }
 
 /* ============================================
@@ -107,9 +123,9 @@ body {
    ============================================ */
 
 .sidebar-active {
-  color: #C8A96B;
-  border-right: 2px solid #C8A96B;
-  background-color: #1F1208;
+  color: var(--color-accent-primary);
+  border-right: 2px solid var(--color-accent-primary);
+  background-color: var(--color-section-surface);
 }
 
 /* ============================================
@@ -118,7 +134,8 @@ body {
 
 input::placeholder,
 textarea::placeholder {
-  color: rgba(232, 230, 227, 0.3);
+  color: var(--color-secondary-text);
+  opacity: 1;
 }
 
 /* ============================================
@@ -129,14 +146,15 @@ textarea::placeholder {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0D0704;
+  background: var(--color-page-surface);
 }
 ::-webkit-scrollbar-thumb {
-  background: #2A1A10;
+  background: var(--color-section-surface);
   border-radius: 3px;
+  border: 1px solid color-mix(in srgb, var(--color-border-primary) 10%, transparent);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #C8A96B;
+  background: var(--color-accent-primary);
 }
 
 /* ============================================
@@ -148,11 +166,11 @@ textarea::placeholder {
   align-items: center;
   padding: 3px 10px;
   border-radius: 9999px;
-  border: 1px solid rgba(200, 169, 107, 0.3);
-  background-color: rgba(200, 169, 107, 0.08);
-  color: #C8A96B;
+  border: 1px solid color-mix(in srgb, var(--color-border-primary) 10%, transparent);
+  background-color: color-mix(in srgb, var(--color-page-surface) 50%, transparent);
+  color: var(--color-secondary-text);
   font-family: var(--font-label);
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;

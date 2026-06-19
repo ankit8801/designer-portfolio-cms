@@ -95,7 +95,7 @@ export function CardStack({
         onKeyDown={onKeyDown}
       >
         {/* Spotlight / Glow Effect */}
-        <div className="absolute inset-x-0 bottom-10 mx-auto h-40 w-1/2 rounded-full bg-accent/5 blur-[120px] pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-10 mx-auto h-40 w-1/2 rounded-full bg-accent-primary/5 blur-[120px] pointer-events-none" />
 
         <div
           className="absolute inset-0 flex items-center justify-center"
@@ -121,14 +121,13 @@ export function CardStack({
                 <motion.div
                   key={item.id}
                   className={cn(
-                    "absolute rounded-2xl border border-white/5 overflow-hidden shadow-2xl",
-                    isActive ? "cursor-grab active:cursor-grabbing ring-1 ring-accent/20" : "cursor-pointer"
+                    "absolute rounded-2xl border border-border-primary/10 overflow-hidden shadow-2xl bg-card-surface",
+                    isActive ? "cursor-grab active:cursor-grabbing ring-1 ring-accent-primary/20" : "cursor-pointer"
                   )}
                   style={{
                     width: cardWidth,
                     height: cardHeight,
                     zIndex,
-                    backgroundColor: "#2A1A10", // --color-card-bg
                   }}
                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
                   animate={{
@@ -176,8 +175,8 @@ export function CardStack({
               onClick={() => setActive(idx)}
               aria-label={`Go to slide ${idx + 1}`}
               className={cn(
-                "h-1.5 rounded-full transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                idx === active ? "w-8 bg-accent" : "w-2 bg-white/10 hover:bg-white/20"
+                "h-1.5 rounded-full transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                idx === active ? "w-8 bg-accent-primary" : "w-2 bg-primary-text/10 hover:bg-primary-text/20"
               )}
             />
           ))}
@@ -192,7 +191,7 @@ function ObsidianCard({ item, isActive }) {
     <Link 
       to={item.href} 
       className={cn(
-        "relative h-full w-full block group transition-all duration-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl",
+        "relative h-full w-full block group transition-all duration-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl",
         isActive ? "pointer-events-auto" : "pointer-events-none"
       )}
     >
@@ -209,8 +208,8 @@ function ObsidianCard({ item, isActive }) {
         />
       </div>
 
-      {/* Dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0D0704] via-[#0D0704]/40 to-transparent opacity-80" />
+      {/* Light gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-page-surface via-page-surface/40 to-transparent opacity-90" />
 
       {/* Content */}
       <div className="absolute inset-0 p-8 flex flex-col justify-end">
@@ -218,7 +217,7 @@ function ObsidianCard({ item, isActive }) {
           <motion.span 
              initial={{ opacity: 0, x: -10 }}
              animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0 }}
-             className="font-label text-[10px] uppercase tracking-[0.3em] text-accent block"
+             className="font-label text-[10px] uppercase tracking-[0.3em] text-accent-primary block"
           >
             {item.category || 'Architecture'}
           </motion.span>
@@ -234,7 +233,7 @@ function ObsidianCard({ item, isActive }) {
         </div>
         
         {isActive && (
-          <div className="mt-6 flex items-center gap-2 text-accent group-hover:gap-4 transition-all">
+          <div className="mt-6 flex items-center gap-2 text-accent-primary group-hover:gap-4 transition-all">
              <span className="font-label text-[10px] uppercase tracking-[0.2em] font-bold">Explore Piece</span>
              <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </div>

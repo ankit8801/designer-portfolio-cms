@@ -53,7 +53,7 @@ export default function Gallery() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
-          className="font-label text-[10px] uppercase tracking-[0.4em] text-accent mb-4"
+          className="font-label text-[10px] uppercase tracking-[0.4em] text-accent-primary mb-4"
         >
           Portfolio
         </motion.span>
@@ -93,8 +93,8 @@ export default function Gallery() {
               onClick={() => setActiveCategory(cat)}
               className={`relative px-5 py-2.5 rounded-full font-headline font-bold text-[10px] uppercase tracking-[0.15em] transition-all duration-300 border ${
                 activeCategory === cat
-                  ? 'bg-accent text-on-accent border-accent shadow-[0_0_20px_rgba(200,169,107,0.3)]'
-                  : 'border-white/10 text-primary-text/50 hover:border-white/30 hover:text-primary-text bg-transparent'
+                  ? 'bg-accent-primary text-on-accent border-accent-primary shadow-[0_0_20px_rgba(200,169,107,0.3)]'
+                  : 'border-border-primary/20 text-primary-text/50 hover:border-border-primary/40 hover:text-primary-text bg-transparent'
               }`}
             >
               {cat}
@@ -106,7 +106,7 @@ export default function Gallery() {
       {/* Loading */}
       {loading && (
         <div className="flex justify-center py-32">
-          <div className="w-8 h-8 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-accent-primary/20 border-t-accent rounded-full animate-spin" />
         </div>
       )}
 
@@ -117,7 +117,7 @@ export default function Gallery() {
           animate={{ opacity: 1 }}
           className="text-center py-32"
         >
-          <span className="material-symbols-outlined text-5xl text-accent/20 mb-4 block">palette</span>
+          <span className="material-symbols-outlined text-5xl text-accent-primary/20 mb-4 block">palette</span>
           <p className="font-body text-primary-text/40 text-lg">No projects in this category yet.</p>
         </motion.div>
       )}

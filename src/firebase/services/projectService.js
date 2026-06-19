@@ -72,9 +72,6 @@ export const createProject = async (projectData) => {
       throw new Error(`Missing required fields: ${missing.join(", ")}`);
     }
 
-    console.log(`--- Firestore Write: Creating Project to [${PROJECTS_COLLECTION}] ---`);
-    console.log("Payload:", JSON.stringify(projectData, null, 2));
-
     const docRef = await addDoc(collection(db, PROJECTS_COLLECTION), {
       ...projectData,
       blocks: projectData.blocks || [],
@@ -83,7 +80,6 @@ export const createProject = async (projectData) => {
       updatedAt: serverTimestamp(),
     });
 
-    console.log("Firestore Success: Project ID", docRef.id);
     return { success: true, id: docRef.id };
   } catch (error) {
     console.error("Firestore Write Error (Create):", error.code, error.message);
@@ -141,16 +137,12 @@ export const getNextProject = async (currentProjectCreatedAt) => {
 
 export const updateProject = async (id, updatedData) => {
   try {
-    console.log(`--- Firestore Write: Updating Project ${id} ---`);
-    console.log("Payload:", JSON.stringify(updatedData, null, 2));
-
     const docRef = doc(db, PROJECTS_COLLECTION, id);
     await updateDoc(docRef, {
       ...updatedData,
       updatedAt: serverTimestamp(),
     });
 
-    console.log("Firestore Success: Project updated");
     return { success: true };
   } catch (error) {
     console.error("Firestore Write Error (Update):", error);

@@ -38,12 +38,7 @@ function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-0 w-full z-[60] transition-colors duration-500"
-        style={{
-          backgroundColor: scrolled ? 'rgba(13, 7, 4, 0.9)' : 'rgba(13, 7, 4, 0.4)',
-          backdropFilter: scrolled ? 'blur(20px)' : 'blur(0px)',
-          borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(255, 255, 255, 0)'
-        }}
+        className={`fixed top-0 w-full z-[60] transition-all duration-500 border-b ${scrolled ? 'bg-page-surface/90 backdrop-blur-xl border-border-primary/10' : 'bg-page-surface/40 backdrop-blur-none border-transparent'}`}
       >
         <div className="flex justify-between items-center w-full px-6 md:px-12 py-4 md:py-6 max-w-[1920px] mx-auto">
           <Link to="/" className="text-xl md:text-2xl font-bold tracking-[0.1em] text-primary-text font-headline" aria-label="Devendra Surve Home">
@@ -58,8 +53,8 @@ function Navbar() {
                   to={link.path}
                   className={`transition-colors duration-300 ${
                     location.pathname === link.path
-                      ? 'text-accent border-b border-accent pb-1'
-                      : 'text-primary-text hover:text-accent'
+                      ? 'text-accent-primary border-b border-accent-primary pb-1'
+                      : 'text-primary-text hover:text-accent-primary'
                   }`}
                 >
                   {link.label}
@@ -75,7 +70,7 @@ function Navbar() {
             >
               <Link
                 to="/contact"
-                className="bg-accent text-on-accent px-6 md:px-8 py-2 md:py-3 rounded-full font-headline text-xs md:text-sm font-bold uppercase tracking-wider hover:brightness-110 transition-all duration-300 shadow-lg inline-block"
+                className="bg-accent-primary text-on-accent px-6 md:px-8 py-2 md:py-3 rounded-full font-headline text-xs md:text-sm font-bold uppercase tracking-wider hover:brightness-110 transition-all duration-300 shadow-lg inline-block"
               >
                 Hire Me
               </Link>
@@ -86,10 +81,10 @@ function Navbar() {
       </motion.nav>
 
       {/* Mobile Hamburger */}
-      <div className={`md:hidden fixed top-4 right-6 z-[100] flex items-center justify-center ${mobileOpen ? 'bg-black/40' : 'bg-black/60'} backdrop-blur-md rounded-full p-1 border border-[#C8A96B]/30 shadow-[0_4px_20px_rgba(0,0,0,0.6)] transition-all duration-300`}>
+      <div className={`md:hidden fixed top-4 right-6 z-[100] flex items-center justify-center ${mobileOpen ? 'bg-primary-text/40' : 'bg-primary-text/60'} backdrop-blur-md rounded-full p-1 border border-accent-primary/30 shadow-[0_4px_20px_rgba(0,0,0,0.6)] transition-all duration-300`}>
         <motion.button
           whileTap={{ scale: 0.95 }}
-          className="flex items-center justify-center p-2 text-white hover:text-accent transition-colors active:scale-95 transition-all duration-200"
+          className="flex items-center justify-center p-2 text-primary-text hover:text-accent-primary transition-colors active:scale-95 transition-all duration-200"
           onClick={toggleMobile}
           aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={mobileOpen}
@@ -106,8 +101,7 @@ function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[90] flex flex-col items-center justify-center pointer-events-auto"
-            style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)', backdropFilter: 'blur(20px)' }}
+            className="fixed inset-0 z-[90] flex flex-col items-center justify-center pointer-events-auto bg-primary-text/40 backdrop-blur-xl"
           >
             <div className="flex flex-col items-center gap-10 font-headline tracking-widest text-2xl md:text-3xl font-medium uppercase">
               {navLinks.map((link, idx) => (
@@ -121,8 +115,8 @@ function Navbar() {
                     to={link.path}
                     className={`transition-all duration-300 ${
                       location.pathname === link.path
-                        ? 'text-accent'
-                        : 'text-primary-text hover:text-accent'
+                        ? 'text-accent-primary'
+                        : 'text-primary-text hover:text-accent-primary'
                     }`}
                     onClick={toggleMobile}
                   >
@@ -137,7 +131,7 @@ function Navbar() {
               >
                 <Link
                   to="/contact"
-                  className="mt-6 bg-accent text-on-accent px-12 py-4 rounded-full font-headline text-sm font-bold uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all duration-300 shadow-2xl"
+                  className="mt-6 bg-accent-primary text-on-accent px-12 py-4 rounded-full font-headline text-sm font-bold uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all duration-300 shadow-2xl"
                   onClick={toggleMobile}
                 >
                   Hire Me
