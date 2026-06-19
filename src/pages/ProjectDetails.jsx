@@ -176,7 +176,7 @@ export default function ProjectDetails() {
         <span className="material-symbols-outlined text-5xl text-accent-primary/30 mb-6">search_off</span>
         <h1 className="font-headline font-extrabold text-4xl mb-4 text-primary-text uppercase">Project Not Found</h1>
         <p className="font-body text-primary-text/50 mb-8 max-w-md">This project doesn't exist in the current portfolio.</p>
-        <Link to="/projects" className="px-8 py-3 rounded-full border border-accent-primary text-accent-primary font-headline text-xs tracking-widest hover:bg-accent-primary-primary hover:text-on-accent transition-all uppercase">
+        <Link to="/projects" className="px-8 py-3 rounded-full border border-accent-primary text-accent-primary font-headline text-xs tracking-widest hover:bg-accent-primary-primary hover:text-on-accent transition uppercase">
           Return to Projects
         </Link>
       </main>
@@ -299,7 +299,7 @@ export default function ProjectDetails() {
           {nextProject ? (
             <Link
               to={`/projects/${nextProject.id}`}
-              className="group flex items-center gap-6 bg-card-surface/50 border border-border-primary/10 rounded-2xl p-4 hover:border-accent-primary/20 transition-all duration-400 min-w-[280px]"
+              className="group flex items-center gap-6 bg-card-surface/50 border border-border-primary/10 rounded-2xl p-4 hover:border-accent-primary/20 transition duration-400 min-w-[280px]"
               aria-label={`View next project: ${nextProject.title}`}
             >
               {nextProject.thumbnail && (
@@ -311,7 +311,7 @@ export default function ProjectDetails() {
                 <span className="category-pill text-[8px] mb-2 inline-block">{nextProject.category}</span>
                 <p className="font-headline font-bold text-sm uppercase tracking-wide text-primary-text line-clamp-2">{nextProject.title}</p>
               </div>
-              <span className="material-symbols-outlined text-accent-primary/30 group-hover:text-accent-primary-primary group-hover:translate-x-1 transition-all shrink-0">arrow_forward</span>
+              <span className="material-symbols-outlined text-accent-primary/30 group-hover:text-accent-primary-primary group-hover:translate-x-1 transition shrink-0">arrow_forward</span>
             </Link>
           ) : (
             <Link

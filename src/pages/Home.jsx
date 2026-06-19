@@ -82,15 +82,21 @@ export default function Home() {
               transition={{ duration: 1.5 }}
               className="absolute inset-0"
             >
-              <ProtectedImage src={settings.homeHero} alt="Hero Background" className="w-full h-full object-cover mix-blend-luminosity" />
-              <div className="absolute inset-0 bg-gradient-to-t from-page-surface via-page-surface/80 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-page-surface via-page-surface/50 to-transparent" />
+              <ProtectedImage 
+                src={settings.homeHero} 
+                alt="" 
+                loading="eager"
+                fetchpriority="high"
+                className="w-full h-full object-cover" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-page-surface via-page-surface/80 to-transparent transition-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-page-surface via-page-surface/50 to-transparent transition-none" />
             </motion.div>
           )}
-          <div className="absolute top-0 right-0 w-[50%] h-full bg-gradient-to-bl from-section-surface to-transparent opacity-60" />
-          <div className="absolute bottom-0 left-0 w-[40%] h-[60%] bg-gradient-to-tr from-accent-primary/5 to-transparent" />
-          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-accent-primary/5 rounded-full blur-[120px]" />
-          <div className="grid-bg absolute inset-0 opacity-40" />
+          <div className="absolute top-0 right-0 w-[50%] h-full bg-gradient-to-bl from-section-surface to-transparent opacity-60 transition-none" />
+          <div className="absolute bottom-0 left-0 w-[40%] h-[60%] bg-gradient-to-tr from-accent-primary/5 to-transparent transition-none" />
+          <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-[radial-gradient(circle_at_center,rgba(200,169,126,0.1)_0%,transparent_70%)] transition-none" />
+          <div className="grid-bg absolute inset-0 opacity-40 transition-none" />
         </div>
 
         {/* Mouse-follow glow */}
@@ -152,7 +158,7 @@ export default function Home() {
             <motion.div variants={itemVariants} className="flex items-center gap-4 flex-wrap">
               <Link
                 to="/projects"
-                className="group flex items-center gap-3 bg-accent-primary text-on-accent px-8 py-4 rounded-full font-headline font-bold uppercase tracking-[0.1em] shadow-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(200,169,107,0.4)] transition-all duration-300"
+                className="group flex items-center gap-3 bg-accent-primary text-on-accent px-8 py-4 rounded-full font-headline font-bold uppercase tracking-[0.1em] shadow-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(200,169,107,0.4)] transition duration-300"
                 aria-label="View design portfolio"
               >
                 View My Work
@@ -160,7 +166,7 @@ export default function Home() {
               </Link>
               <Link
                 to="/contact"
-                className="group flex items-center gap-3 border border-border-primary/30 text-primary-text/70 hover:text-primary-text hover:border-border-primary/50 px-8 py-4 rounded-full font-headline font-bold uppercase tracking-[0.1em] transition-all duration-300"
+                className="group flex items-center gap-3 border border-border-primary/30 text-primary-text/70 hover:text-primary-text hover:border-border-primary/50 px-8 py-4 rounded-full font-headline font-bold uppercase tracking-[0.1em] transition duration-300"
                 aria-label="Get in touch for collaboration"
               >
                 Let's Collaborate
@@ -174,7 +180,7 @@ export default function Home() {
             <motion.div
               animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute top-8 right-12 w-32 h-32 rounded-2xl bg-gradient-to-br from-accent-primary/20 to-accent-primary/5 border border-accent-primary/20 backdrop-blur-sm"
+              className="absolute top-8 right-12 w-32 h-32 rounded-2xl bg-gradient-to-br from-accent-primary/20 to-accent-primary/5 border border-accent-primary/20"
               aria-hidden="true"
             />
             <motion.div
@@ -291,7 +297,7 @@ export default function Home() {
                       </div>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-primary-text/80 via-primary-text/20 to-transparent gallery-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute inset-0 p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                    <div className="absolute inset-0 p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
                       <span className="category-pill self-start">{project.category}</span>
                       <div>
                         <h3 className="font-headline font-bold text-sm text-primary-text uppercase tracking-wider mb-2">{project.title}</h3>
@@ -307,7 +313,7 @@ export default function Home() {
             </div>
 
             <div className="mt-12 flex justify-center md:hidden">
-              <Link to="/projects" className="flex items-center gap-3 font-headline text-[10px] uppercase tracking-[0.3em] text-accent-primary border border-accent-primary/30 px-8 py-4 rounded-full hover:bg-accent-primary-primary hover:text-on-accent transition-all duration-300">
+              <Link to="/projects" className="flex items-center gap-3 font-headline text-[10px] uppercase tracking-[0.3em] text-accent-primary border border-accent-primary/30 px-8 py-4 rounded-full hover:bg-accent-primary-primary hover:text-on-accent transition duration-300">
                 View All Projects <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
               </Link>
             </div>
@@ -350,7 +356,7 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.06, duration: 0.6, ease: customEase }}
-                  className="bg-card-surface/50 border border-border-primary/10 rounded-2xl p-5 flex flex-col items-start gap-3 group hover:border-accent-primary/30 hover:bg-card-surface transition-all duration-300"
+                  className="bg-card-surface/50 border border-border-primary/10 rounded-2xl p-5 flex flex-col items-start gap-3 group hover:border-accent-primary/30 hover:bg-card-surface transition duration-300"
                 >
                   <span className="material-symbols-outlined text-accent-primary/60 group-hover:text-accent-primary-primary transition-colors text-xl">{item.icon}</span>
                   <span className="font-headline font-bold text-xs uppercase tracking-wide text-primary-text/70 group-hover:text-primary-text transition-colors">{item.label}</span>
@@ -376,7 +382,7 @@ export default function Home() {
             </h2>
             <Link
               to="/contact"
-              className="group inline-flex items-center gap-4 bg-accent-primary text-on-accent px-12 py-5 rounded-full font-headline font-bold uppercase tracking-[0.15em] shadow-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(200,169,107,0.4)] transition-all duration-300"
+              className="group inline-flex items-center gap-4 bg-accent-primary text-on-accent px-12 py-5 rounded-full font-headline font-bold uppercase tracking-[0.15em] shadow-2xl hover:scale-105 hover:shadow-[0_0_40px_rgba(200,169,107,0.4)] transition duration-300"
               aria-label="Contact to start a project"
             >
               Start a Project

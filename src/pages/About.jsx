@@ -51,7 +51,7 @@ export default function About() {
 Devendra Surve is an emerging graphic designer currently pursuing his fourth year of study, passionate about transforming ideas into compelling visual experiences. His creative practice spans branding, digital design, social media creatives, and visual identity systems, always guided by a strong sense of clarity and purpose.
 
 To Devendra, design is the intersection of creativity and communication. Every project is approached with curiosity, strategic thinking, and attention to detail—ensuring that each visual not only looks striking but also tells a meaningful story. Through thoughtful design, he aims to create experiences that resonate, inspire, and leave a lasting impression."
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-1000"
                 src={images.portrait}
                 decoding="async"
               />
@@ -141,7 +141,7 @@ Devendra Surve is an emerging graphic designer currently pursuing his fourth yea
           transition={{ duration: 1, ease: customEase }}
           className="max-w-7xl mx-auto grid grid-cols-12 gap-8 items-center"
         >
-          <div className="col-span-12 lg:col-span-7 h-[400px] lg:h-[500px] overflow-hidden rounded-2xl shadow-xl bg-primary-text/5">
+          <div className="col-span-12 lg:col-span-7 h-[400px] lg:h-[500px] overflow-hidden rounded-2xl shadow-xl bg-section-surface">
             <ProtectedImage
               alt="A detail shot illustrating the design philosophy — precision, craft, and visual rhythm"
               className="w-full h-full object-cover opacity-60 hover:opacity-100 transition-opacity duration-700"

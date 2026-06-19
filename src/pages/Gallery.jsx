@@ -20,11 +20,6 @@ export default function Gallery() {
       .catch(() => setLoading(false))
   }, [])
 
-  useEffect(() => {
-    fetchProjects()
-      .then(data => { setProjects(data); setLoading(false) })
-      .catch(() => setLoading(false))
-  }, [])
 
   // Build unique category list from live data
   const categories = useMemo(() => {
@@ -91,7 +86,7 @@ export default function Gallery() {
               role="tab"
               aria-selected={activeCategory === cat}
               onClick={() => setActiveCategory(cat)}
-              className={`relative px-5 py-2.5 rounded-full font-headline font-bold text-[10px] uppercase tracking-[0.15em] transition-all duration-300 border ${
+              className={`relative px-5 py-2.5 rounded-full font-headline font-bold text-[10px] uppercase tracking-[0.15em] transition duration-300 border ${
                 activeCategory === cat
                   ? 'bg-accent-primary text-on-accent border-accent-primary shadow-[0_0_20px_rgba(200,169,107,0.3)]'
                   : 'border-border-primary/20 text-primary-text/50 hover:border-border-primary/40 hover:text-primary-text bg-transparent'

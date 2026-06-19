@@ -87,7 +87,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
             </div>
             <button 
               onClick={onCancel}
-              className="w-10 h-10 bg-primary-text/5 rounded-full flex items-center justify-center text-primary-text/40 hover:text-red-400 hover:bg-primary-text/10 transition-all active:scale-90"
+              className="w-10 h-10 bg-section-surface rounded-full flex items-center justify-center text-primary-text/40 hover:text-error hover:bg-card-surface transition active:scale-90"
             >
               <span className="material-symbols-outlined text-[20px]">close</span>
             </button>
@@ -113,7 +113,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
             ) : (
               // --- CROP VIEW ---
               <div className="flex flex-col h-full">
-                <div className="relative h-[300px] sm:h-[400px] md:h-[500px] flex-shrink-0 bg-primary-text/5 border-b border-border-primary/10">
+                <div className="relative h-[300px] sm:h-[400px] md:h-[500px] flex-shrink-0 bg-section-surface border-b border-border-primary/10">
                   <Cropper
                     ref={cropperRef}
                     src={image}
@@ -133,10 +133,10 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
                           key={i}
                           type="button"
                           onClick={() => setAspect(arr.value)}
-                          className={`flex-1 min-w-[80px] py-3 px-2 rounded-xl text-[9px] font-headline font-bold uppercase tracking-widest transition-all ${
+                          className={`flex-1 min-w-[80px] py-3 px-2 rounded-xl text-[9px] font-headline font-bold uppercase tracking-widest transition ${
                             aspect === arr.value 
                             ? 'bg-accent-primary text-on-accent shadow-lg shadow-accent-primary/20' 
-                            : 'bg-primary-text/5 text-primary-text/40 hover:bg-primary-text/10 hover:text-primary-text'
+                            : 'bg-section-surface text-primary-text/40 hover:bg-card-surface hover:text-primary-text'
                           }`}
                         >
                           {arr.label}
@@ -159,7 +159,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
                   type="button"
                   onClick={() => setView('crop')}
                   disabled={isProcessing}
-                  className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/60 hover:text-primary-text transition-colors disabled:opacity-30 py-3 px-6 rounded-full border border-border-primary/20 hover:bg-primary-text/5"
+                  className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/60 hover:text-primary-text transition-colors disabled:opacity-30 py-3 px-6 rounded-full border border-border-primary/20 hover:bg-section-surface"
                 >
                   <span className="material-symbols-outlined text-[1rem] mr-2 align-middle">crop</span>
                   Edit / Crop
@@ -168,7 +168,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
                   type="button"
                   onClick={handleUseOriginal}
                   disabled={isProcessing}
-                  className="w-full sm:w-auto bg-accent-primary text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
+                  className="w-full sm:w-auto bg-accent-primary text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent-primary/20 hover:scale-105 active:scale-95 transition flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
                 >
                   {isProcessing ? (
                     <><div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" /> Processing...</>
@@ -203,7 +203,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
                   type="button"
                   onClick={handleUseOriginal}
                   disabled={isProcessing}
-                  className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/80 bg-primary-text/5 hover:bg-primary-text/10 transition-colors py-3 px-6 rounded-full border border-border-primary/20"
+                  className="w-full sm:w-auto font-headline text-[11px] font-bold uppercase tracking-widest text-primary-text/80 bg-section-surface hover:bg-card-surface transition-colors py-3 px-6 rounded-full border border-border-primary/20"
                 >
                   Skip Crop
                 </button>
@@ -212,7 +212,7 @@ export default function ImageCropModal({ isOpen, image, onCancel, onCropComplete
                   type="button"
                   onClick={handleApplyCrop}
                   disabled={isProcessing}
-                  className="w-full sm:w-auto bg-accent-primary text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
+                  className="w-full sm:w-auto bg-accent-primary text-on-accent px-10 py-4 rounded-full font-headline font-bold text-xs uppercase tracking-widest shadow-xl shadow-accent-primary/20 hover:scale-105 active:scale-95 transition flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
                 >
                   {isProcessing ? (
                     <><div className="w-4 h-4 border-2 border-on-accent border-t-transparent rounded-full animate-spin" /> Cropping...</>

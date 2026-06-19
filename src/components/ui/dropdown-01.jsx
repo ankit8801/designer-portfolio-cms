@@ -40,10 +40,10 @@ const Dropdown = ({ options, value, onChange, label, disabled }) => {
           whileTap={!disabled ? { scale: 0.99 } : {}}
           onClick={() => !disabled && setIsOpen(!isOpen)}
           disabled={disabled}
-          className={`w-full px-4 py-4 rounded-lg border transition-all duration-300 text-left flex items-center justify-between group h-[58px] ${
+          className={`w-full px-4 py-4 rounded-lg border transition duration-300 text-left flex items-center justify-between group h-[58px] ${
             isOpen 
               ? 'bg-page-surface border-accent-primary ring-1 ring-accent-primary/20' 
-              : 'bg-page-surface/50 border-border-primary/20 hover:border-border-primary/30'
+              : 'bg-page-surface border-border-primary/20 hover:border-border-primary/30'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
         >
           <span className={`font-body text-base ${value ? 'text-primary-text' : 'text-primary-text/40'}`}>
@@ -77,10 +77,10 @@ const Dropdown = ({ options, value, onChange, label, disabled }) => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.2, delay: index * 0.03 }}
                     onClick={() => handleSelect(option)}
-                    className={`w-full px-5 py-3.5 text-left transition-all duration-200 flex items-center justify-between group font-body text-sm ${
+                    className={`w-full px-5 py-3.5 text-left transition duration-200 flex items-center justify-between group font-body text-sm ${
                       value === option.value
                         ? 'bg-accent-primary/10 text-accent-primary'
-                        : 'text-primary-text/70 hover:bg-primary-text/5 hover:text-primary-text'
+                        : 'text-primary-text/70 hover:bg-section-surface hover:text-primary-text'
                     }`}
                   >
                     <div>

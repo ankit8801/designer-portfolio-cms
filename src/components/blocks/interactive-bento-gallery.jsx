@@ -77,7 +77,7 @@ const MediaItem = ({ item, className, onClick }) => {
 
   if (item.type === 'video') {
     return (
-      <div className={`${className} relative overflow-hidden bg-primary-text/10`}>
+      <div className={`${className} relative overflow-hidden bg-card-surface`}>
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
@@ -96,12 +96,12 @@ const MediaItem = ({ item, className, onClick }) => {
           <source src={item.url} type="video/mp4" />
         </video>
         {isBuffering && (
-          <div className="absolute inset-0 flex items-center justify-center bg-primary-text/10">
+          <div className="absolute inset-0 flex items-center justify-center bg-card-surface">
             <div className="w-6 h-6 border-2 border-border-primary/40 border-t-white rounded-full animate-spin" />
           </div>
         )}
         <div className="absolute top-2 right-2 flex items-center justify-center w-6 h-6 rounded-full bg-primary-text/40 backdrop-blur-sm">
-          <Play className="w-3 h-3 text-primary-text fill-white" />
+          <Play className="w-3 h-3 text-primary-text fill-page-surface" />
         </div>
       </div>
     );
@@ -161,7 +161,7 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
           </AnimatePresence>
 
           <button
-            className="absolute top-6 right-6 p-4 rounded-full bg-primary-text/5 text-primary-text/40 hover:text-red-400 hover:bg-primary-text/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary transition-all border border-border-primary/10 active:scale-90 shadow-xl"
+            className="absolute top-6 right-6 p-4 rounded-full bg-section-surface text-primary-text/40 hover:text-error hover:bg-card-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary transition border border-border-primary/10 active:scale-90 shadow-xl"
             onClick={onClose}
             aria-label="Close gallery"
           >

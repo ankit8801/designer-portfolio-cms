@@ -82,7 +82,7 @@ export default function Contact() {
             <div className="flex flex-col gap-8">
               {contactInfo.map(info => (
                 <div key={info.label} className="flex items-start gap-6 group">
-                  <div className="w-12 h-12 rounded-full border border-border-primary/20 flex items-center justify-center text-accent-primary group-hover:bg-accent-primary-primary-primary group-hover:text-on-accent transition-all duration-300">
+                  <div className="w-12 h-12 rounded-full border border-border-primary/20 flex items-center justify-center text-accent-primary group-hover:bg-accent-primary-primary-primary group-hover:text-on-accent transition duration-300">
                     <span className="material-symbols-outlined">{info.icon}</span>
                   </div>
                   <div>
@@ -106,7 +106,7 @@ export default function Contact() {
                   href={s.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-headline text-[9px] uppercase tracking-[0.2em] text-primary-text/70 hover:text-primary-text hover:border-border-primary/50 hover:bg-primary-text/5 transition-all border border-border-primary/20 px-4 py-2 rounded-full cursor-pointer"
+                  className="font-headline text-[9px] uppercase tracking-[0.2em] text-primary-text/70 hover:text-primary-text hover:border-border-primary/50 hover:bg-section-surface transition border border-border-primary/20 px-4 py-2 rounded-full cursor-pointer"
                 >
                   {s.name}
                 </a>
@@ -126,7 +126,7 @@ export default function Contact() {
               <div className={`p-4 rounded-lg font-body text-sm ${
                 status.state === 'success'
                   ? 'bg-accent-primary/10 text-accent-primary border border-accent-primary/20'
-                  : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                  : 'bg-error/10 text-error border border-error/20'
               }`}>
                 {status.message}
               </div>
@@ -138,7 +138,7 @@ export default function Contact() {
                 <input
                   id="name" type="text" value={formData.name} onChange={handleChange}
                   placeholder="Your name" required disabled={status.state === 'submitting'}
-                  className="bg-page-surface/50 border border-border-primary/20 rounded-lg p-4 font-body text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors"
+                  className="bg-page-surface border border-border-primary/20 rounded-lg p-4 font-body text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -146,7 +146,7 @@ export default function Contact() {
                 <input
                   id="email" type="email" value={formData.email} onChange={handleChange}
                   placeholder="you@email.com" required disabled={status.state === 'submitting'}
-                  className="bg-page-surface/50 border border-border-primary/20 rounded-lg p-4 font-body text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors"
+                  className="bg-page-surface border border-border-primary/20 rounded-lg p-4 font-body text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -166,7 +166,7 @@ export default function Contact() {
                 id="message" rows={4} value={formData.message} onChange={handleChange}
                 placeholder="Tell me about your project, timeline, and what you're hoping to create…"
                 required disabled={status.state === 'submitting'}
-                className="bg-page-surface/50 border border-border-primary/20 rounded-lg p-4 font-body text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors resize-none"
+                className="bg-page-surface border border-border-primary/20 rounded-lg p-4 font-body text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors resize-none"
               />
             </div>
 
@@ -175,7 +175,7 @@ export default function Contact() {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={status.state === 'submitting'}
-              className="bg-accent-primary text-on-accent font-headline font-bold uppercase tracking-[0.2em] py-5 rounded-full transition-all shadow-xl mt-4 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-3"
+              className="bg-accent-primary text-on-accent font-headline font-bold uppercase tracking-[0.2em] py-5 rounded-full transition shadow-xl mt-4 disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-3"
               aria-label="Send your message"
             >
               {status.state === 'submitting' ? (

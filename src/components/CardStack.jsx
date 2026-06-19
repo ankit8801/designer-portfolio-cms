@@ -116,8 +116,8 @@ export function CardStack({
         tabIndex={0}
         onKeyDown={onKeyDown}
       >
-        <div className="pointer-events-none absolute inset-x-0 top-6 mx-auto h-48 w-[70%] rounded-full bg-primary-text/5 blur-3xl dark:bg-primary-text/5" aria-hidden="true" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-40 w-[76%] rounded-full bg-primary-text/10 blur-3xl dark:bg-primary-text/30" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-x-0 top-6 mx-auto h-48 w-[70%] rounded-full bg-section-surface blur-3xl dark:bg-section-surface" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-40 w-[76%] rounded-full bg-card-surface blur-3xl dark:bg-primary-text/30" aria-hidden="true" />
 
         <div
           className="absolute inset-0 flex items-end justify-center pb-8"
@@ -199,7 +199,7 @@ export function CardStack({
                 <button
                   key={it.id || idx}
                   onClick={() => setActive(idx)}
-                  className={cn("h-2 rounded-full transition-all duration-300", on ? "bg-accent-primary w-8" : "bg-primary-text/20 hover:bg-primary-text/40 w-2")}
+                  className={cn("h-2 rounded-full transition duration-300", on ? "bg-accent-primary w-8" : "bg-primary-text/20 hover:bg-primary-text/40 w-2")}
                   aria-label={`Go to ${it.title}`}
                 />
               );
@@ -208,7 +208,7 @@ export function CardStack({
           {activeItem?.id ? (
              <Link
                to={`/projects/${activeItem.id}`}
-               className="text-secondary-text hover:text-accent-primary transition ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-primary-text/5 hover:bg-primary-text/10 border border-border-primary/10"
+               className="text-secondary-text hover:text-accent-primary transition ml-4 flex items-center justify-center w-10 h-10 rounded-full bg-section-surface hover:bg-card-surface border border-border-primary/10"
                aria-label="Open project details"
              >
                <span className="material-symbols-outlined text-[18px]">open_in_new</span>

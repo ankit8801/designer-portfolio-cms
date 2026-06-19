@@ -2,9 +2,9 @@ import { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import MainLayout from './layout/MainLayout'
+import Home from './pages/Home'
 
-// Lazy load pages
-const Home = lazy(() => import('./pages/Home'))
+// Lazy load secondary pages — Home is eager (it is the LCP route)
 const Services = lazy(() => import('./pages/Services'))
 const About = lazy(() => import('./pages/About'))
 const Projects = lazy(() => import('./pages/Gallery'))

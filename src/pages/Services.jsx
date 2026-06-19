@@ -110,7 +110,7 @@ export default function Services() {
               <Link to="/projects" className="flex items-center gap-4 group" aria-label="Explore design portfolio">
                 <motion.span
                   whileHover={{ scale: 1.1, backgroundColor: 'var(--color-accent)' }}
-                  className="w-14 h-14 rounded-full border border-border-primary/30 flex items-center justify-center transition-all duration-300"
+                  className="w-14 h-14 rounded-full border border-border-primary/30 flex items-center justify-center transition duration-300"
                 >
                   <span className="material-symbols-outlined text-primary-text group-hover:text-on-accent transition-colors" aria-hidden="true">arrow_forward</span>
                 </motion.span>
@@ -183,7 +183,7 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.7, ease: customEase }}
-                className="group bg-card-surface/40 border border-border-primary/10 rounded-2xl p-8 hover:border-accent-primary/20 hover:bg-card-surface/70 transition-all duration-400 flex flex-col gap-5"
+                className="group bg-card-surface/40 border border-border-primary/10 rounded-2xl p-8 hover:border-accent-primary/20 hover:bg-card-surface/70 transition duration-400 flex flex-col gap-5"
               >
                 <div className="w-12 h-12 rounded-xl bg-accent-primary/10 flex items-center justify-center group-hover:bg-accent-primary-primary-primary/20 transition-colors">
                   <span className="material-symbols-outlined text-accent-primary text-xl">{service.icon}</span>
@@ -215,7 +215,7 @@ export default function Services() {
           <p className="font-body text-xl text-primary-text/50 mb-8">Have a project in mind?</p>
           <Link
             to="/contact"
-            className="group inline-flex items-center gap-4 bg-accent-primary text-on-accent px-10 py-5 rounded-full font-headline font-bold uppercase tracking-[0.15em] shadow-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(200,169,107,0.4)] transition-all duration-300"
+            className="group inline-flex items-center gap-4 bg-accent-primary text-on-accent px-10 py-5 rounded-full font-headline font-bold uppercase tracking-[0.15em] shadow-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(200,169,107,0.4)] transition duration-300"
             aria-label="Get in touch to discuss your project"
           >
             Let's Work Together

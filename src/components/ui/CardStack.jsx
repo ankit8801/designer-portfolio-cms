@@ -175,8 +175,8 @@ export function CardStack({
               onClick={() => setActive(idx)}
               aria-label={`Go to slide ${idx + 1}`}
               className={cn(
-                "h-1.5 rounded-full transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                idx === active ? "w-8 bg-accent-primary" : "w-2 bg-primary-text/10 hover:bg-primary-text/20"
+                "h-1.5 rounded-full transition duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                idx === active ? "w-8 bg-accent-primary" : "w-2 bg-card-surface hover:bg-primary-text/20"
               )}
             />
           ))}
@@ -191,7 +191,7 @@ function ObsidianCard({ item, isActive }) {
     <Link 
       to={item.href} 
       className={cn(
-        "relative h-full w-full block group transition-all duration-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl",
+        "relative h-full w-full block group transition duration-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl",
         isActive ? "pointer-events-auto" : "pointer-events-none"
       )}
     >
@@ -233,7 +233,7 @@ function ObsidianCard({ item, isActive }) {
         </div>
         
         {isActive && (
-          <div className="mt-6 flex items-center gap-2 text-accent-primary group-hover:gap-4 transition-all">
+          <div className="mt-6 flex items-center gap-2 text-accent-primary group-hover:gap-4 transition">
              <span className="font-label text-[10px] uppercase tracking-[0.2em] font-bold">Explore Piece</span>
              <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </div>
