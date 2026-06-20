@@ -7,6 +7,43 @@ import { processImageForWeb } from '../utils/imageProcessor';
 import { recordImageFingerprint } from '../utils/imageFingerprint';
 import ImageCropModal from './ImageCropModal';
 
+// Mini preview for grid templates
+const TemplateMiniPreview = ({ layout, images }) => {
+  const getContainerClass = () => {
+    switch (layout) {
+      case 'grid': return 'grid grid-cols-2 gap-[2px] w-full h-full p-[2px] auto-rows-fr';
+      case 'hero-strip': return 'grid grid-cols-3 gap-[2px] w-full h-full p-[2px] auto-rows-fr';
+      case 'masonry': return 'columns-2 gap-[2px] w-full h-full p-[2px] space-y-[2px]';
+      case 'bento':
+      default: return 'grid grid-cols-3 gap-[2px] w-full h-full p-[2px] auto-rows-fr';
+    }
+  };
+
+  const getItemClass = (i) => {
+    switch (layout) {
+      case 'grid': return 'col-span-1 bg-primary-text/10';
+      case 'hero-strip': return i === 0 ? 'col-span-full row-span-2 bg-primary-text/10' : 'col-span-1 bg-primary-text/10';
+      case 'masonry': return 'break-inside-avoid w-full bg-primary-text/10';
+      case 'bento':
+      default:
+        const spans = ['col-span-1 row-span-2', 'col-span-2 row-span-1', 'col-span-1 row-span-2', 'col-span-2 row-span-1'];
+        return `${spans[i % spans.length]} bg-primary-text/10`;
+    }
+  };
+
+  const previewImages = images.slice(0, 4);
+
+  return (
+    <div className={getContainerClass()}>
+      {previewImages.map((src, i) => (
+         <div key={i} className={`${getItemClass(i)} rounded-[2px] overflow-hidden ${layout === 'masonry' ? (i % 2 === 0 ? 'aspect-square' : 'aspect-[4/3]') : ''}`}>
+           <img src={src} className="w-full h-full object-cover opacity-60" alt="" />
+         </div>
+      ))}
+    </div>
+  );
+};
+
 const CATEGORIES = [
   'Brand Identity',
   'Packaging',
@@ -31,7 +68,7 @@ const emptyBlock = (type) => {
   switch (type) {
     case 'text':       return { type, content: '' };
     case 'image':      return { type, url: '', caption: '', _file: null, _preview: '' };
-    case 'photo_grid': return { type, images: [], _files: [], _previews: [] };
+    case 'photo_grid': return { type, images: [], _files: [], _previews: [], layout: 'bento', gap: 'medium' };
     case 'video':      return { type, url: '', caption: '' };
     case 'embed':      return { type, url: '', caption: '' };
     default:           return { type };
@@ -304,18 +341,34 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
           for (let g = 0; g < (block._files?.length || 0); g++) {
             const file = block._files[g];
             if (file instanceof File || file instanceof Blob) {
-               uploadPromises.push(
-                  uploadAndFingerprint(file, file.name || `grid_image_${g}.png`, 1920)
-                    .then(url => ({ url, caption: block.images?.[g]?.caption || '' }))
-               );
+               uploadPromises.push(new Promise((resolve) => {
+                 const img = new Image();
+                 const objectUrl = URL.createObjectURL(file);
+                 img.onload = () => {
+                   uploadAndFingerprint(file, file.name || `grid_image_${g}.png`, 1920)
+                     .then(url => resolve({ url, caption: block.images?.[g]?.caption || '', width: img.naturalWidth || img.width, height: img.naturalHeight || img.height }))
+                     .catch(() => resolve(null));
+                   URL.revokeObjectURL(objectUrl);
+                 };
+                 img.onerror = () => {
+                   URL.revokeObjectURL(objectUrl);
+                   resolve(null);
+                 };
+                 img.src = objectUrl;
+               }));
             } else {
-               uploadPromises.push(Promise.resolve({ url: block._previews?.[g] || '', caption: block.images?.[g]?.caption || '' }));
+               uploadPromises.push(Promise.resolve({ 
+                 url: block._previews?.[g] || block.images?.[g]?.url || '', 
+                 caption: block.images?.[g]?.caption || '',
+                 width: block.images?.[g]?.width || 0,
+                 height: block.images?.[g]?.height || 0
+               }));
             }
           }
-          const uploadedImages = await Promise.all(uploadPromises);
+          const uploadedImages = (await Promise.all(uploadPromises)).filter(Boolean);
           const existingImages = (!block._files?.length && block.images?.filter(img => img.url && !img.url.startsWith('blob:'))) || [];
           const merged = uploadedImages.length ? uploadedImages : existingImages;
-          if (merged.length) finalBlocks.push({ type: 'photo_grid', images: merged });
+          if (merged.length) finalBlocks.push({ type: 'photo_grid', images: merged, layout: block.layout || 'bento', gap: block.gap || 'medium' });
 
         } else if (block.type === 'video') {
           if (block.url.trim()) finalBlocks.push({ type: 'video', url: block.url, caption: block.caption || '' });
@@ -427,34 +480,100 @@ export default function ProjectModal({ isOpen, onClose, onSuccess, initialData }
             </div>
           )}
 
-          {block.type === 'photo_grid' && (
-            <div className="space-y-3">
-              <div className="relative w-full min-h-[80px] rounded-xl overflow-hidden bg-section-surface border-2 border-dashed border-border-primary/20 hover:border-accent-primary/30 transition-colors p-3 flex flex-wrap gap-2 items-center justify-center">
-                {(block._previews?.length || block.images?.filter(i => i.url)?.length) ? (
+          {block.type === 'photo_grid' && (() => {
+            const blockPreviews = block._previews?.length ? block._previews : (block.images?.map(i => i.url).filter(Boolean) || []);
+            const hasImages = blockPreviews.length > 0;
+            const layouts = [
+              { id: 'bento', label: 'Bento' },
+              { id: 'grid', label: 'Grid' },
+              { id: 'hero-strip', label: 'Hero Strip' },
+              { id: 'masonry', label: 'Masonry' }
+            ];
+            const gaps = [
+              { id: 'small', label: 'Small' },
+              { id: 'medium', label: 'Medium' },
+              { id: 'large', label: 'Large' }
+            ];
+
+            return (
+            <div className="space-y-4">
+              {/* Layout Selector */}
+              <div className="space-y-2">
+                <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Grid Layout</label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  {layouts.map(l => {
+                    const isSelected = (block.layout || 'bento') === l.id;
+                    return (
+                      <button 
+                        type="button" 
+                        key={l.id} 
+                        onClick={() => updateBlock(idx, { layout: l.id })}
+                        disabled={isUploading}
+                        className={`relative p-2 rounded-xl border flex flex-col items-center gap-2 transition-all ${isSelected ? 'border-accent-primary bg-accent-primary/5' : 'border-border-primary/20 bg-section-surface hover:border-accent-primary/30'} ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      >
+                        <div className="w-full aspect-video rounded-lg overflow-hidden bg-page-surface flex items-center justify-center border border-border-primary/5">
+                          {hasImages ? (
+                             <TemplateMiniPreview layout={l.id} images={blockPreviews} />
+                          ) : (
+                             <span className="text-primary-text/20 material-symbols-outlined text-[20px]">grid_view</span>
+                          )}
+                        </div>
+                        <span className={`font-label text-[9px] uppercase tracking-wider ${isSelected ? 'text-accent-primary font-bold' : 'text-primary-text/40'}`}>{l.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Gap Selector */}
+              <div className="space-y-2">
+                <label className="font-label text-[10px] tracking-[0.2em] uppercase text-primary-text/40 ml-1">Spacing</label>
+                <div className="flex gap-2">
+                  {gaps.map(g => {
+                    const isSelected = (block.gap || 'medium') === g.id;
+                    return (
+                      <button
+                        type="button"
+                        key={g.id}
+                        onClick={() => updateBlock(idx, { gap: g.id })}
+                        disabled={isUploading}
+                        className={`flex-1 py-2 px-3 rounded-lg border font-label text-[9px] uppercase tracking-wider transition-colors ${isSelected ? 'border-accent-primary bg-accent-primary/10 text-accent-primary' : 'border-border-primary/20 bg-section-surface text-primary-text/40 hover:bg-page-surface'} ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      >
+                        {g.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Image Upload Area */}
+              <div className="relative w-full min-h-[100px] rounded-xl overflow-hidden bg-section-surface border-2 border-dashed border-border-primary/20 hover:border-accent-primary/30 transition-colors p-4 flex flex-wrap gap-2 items-center justify-center mt-2">
+                {hasImages ? (
                   <>
-                    {(block._previews?.length ? block._previews : block.images.map(i => i.url)).map((src, gIdx) => (
-                      <div key={gIdx} className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0">
+                    {blockPreviews.map((src, gIdx) => (
+                      <div key={gIdx} className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 shadow-sm border border-border-primary/10">
                         <img src={src} className="w-full h-full object-cover" alt={`Grid ${gIdx + 1}`} />
                       </div>
                     ))}
-                    <span className="font-label text-[8px] uppercase tracking-wider text-primary-text/30 w-full text-center mt-1">Click to replace all grid images</span>
+                    <span className="font-label text-[8px] uppercase tracking-wider text-primary-text/30 w-full text-center mt-2">Click anywhere to replace all images</span>
                   </>
                 ) : (
-                  <div className="flex flex-col items-center gap-2 text-primary-text/30">
-                    <span className="material-symbols-outlined text-2xl">grid_view</span>
+                  <div className="flex flex-col items-center gap-2 text-primary-text/30 py-4">
+                    <span className="material-symbols-outlined text-3xl mb-1">add_photo_alternate</span>
                     <span className="font-label text-[9px] uppercase tracking-wider">Upload 2–8 images</span>
                   </div>
                 )}
                 <input type="file" accept="image/*" multiple className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={e => handleGridFiles(idx, e)} disabled={isUploading} />
               </div>
+
               {/* Per-image captions */}
               {(block.images || []).filter(img => img.url).map((img, gIdx) => (
                 <input key={gIdx} type="text" value={img.caption || ''} onChange={e => updateGridCaption(idx, gIdx, e.target.value)} disabled={isUploading}
                   placeholder={`Caption for image ${gIdx + 1} (optional)`}
-                  className="w-full bg-page-surface border border-border-primary/20 rounded-lg p-2 font-body text-xs text-primary-text placeholder:text-primary-text/10 focus:border-accent-primary focus:outline-none transition-colors" />
+                  className="w-full bg-page-surface border border-border-primary/20 rounded-lg p-3 font-body text-xs text-primary-text placeholder:text-primary-text/20 focus:border-accent-primary focus:outline-none transition-colors" />
               ))}
             </div>
-          )}
+          )})()}
 
           {(block.type === 'video' || block.type === 'embed') && (
             <div className="space-y-3">

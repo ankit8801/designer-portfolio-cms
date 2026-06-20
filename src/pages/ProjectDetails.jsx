@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { getProjectById, getNextProject } from '../firebase/services/projectService'
-import InteractiveBentoGallery from '../components/blocks/interactive-bento-gallery'
+import ProjectGallery from '../components/blocks/ProjectGallery'
 import { ProtectedImage } from '../components/ui/ProtectedImage'
 
 // ── Block renderers ────────────────────────────────────────────────────────────
@@ -40,15 +40,6 @@ function ImageBlock({ block }) {
   )
 }
 
-const GALLERY_SPANS = [
-  'md:col-span-1 md:row-span-3 sm:col-span-1 sm:row-span-2',
-  'md:col-span-2 md:row-span-2 col-span-1 sm:col-span-2 sm:row-span-2',
-  'md:col-span-1 md:row-span-3 sm:col-span-2 sm:row-span-2',
-  'md:col-span-2 md:row-span-2 sm:col-span-1 sm:row-span-2',
-  'md:col-span-1 md:row-span-3 sm:col-span-1 sm:row-span-2',
-  'md:col-span-2 md:row-span-2 sm:col-span-1 sm:row-span-2',
-]
-
 function PhotoGridBlock({ block }) {
   if (!block.images?.length) return null
   if (block.images.length === 1) return <ImageBlock block={{ url: block.images[0].url, caption: block.images[0].caption }} />
@@ -59,15 +50,18 @@ function PhotoGridBlock({ block }) {
     title: img.caption || `View ${i + 1}`,
     desc: img.caption || '',
     url: img.url,
-    span: GALLERY_SPANS[i % GALLERY_SPANS.length],
+    width: img.width || 0,
+    height: img.height || 0
   }))
 
   return (
     <div className="max-w-7xl mx-auto -mx-6 md:-mx-12">
-      <InteractiveBentoGallery
+      <ProjectGallery
         title=""
         description=""
         mediaItems={mediaItems}
+        layout={block.layout || 'bento'}
+        gap={block.gap || 'medium'}
       />
     </div>
   )

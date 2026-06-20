@@ -111,7 +111,7 @@ const MediaItem = ({ item, className, onClick }) => {
     <ProtectedImage
       src={item.url}
       alt={item.title}
-      className={`${className} object-cover cursor-pointer`}
+      className={`${className} cursor-pointer`}
       onClick={onClick}
       loading="lazy"
       decoding="async"
@@ -240,7 +240,55 @@ const GalleryModal = ({ selectedItem, isOpen, onClose, setSelectedItem, mediaIte
   );
 };
 
-const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
+const getGapSize = (gap) => {
+  switch (gap) {
+    case 'small': return { grid: 'gap-2 md:gap-4', masonryCol: 'gap-2 md:gap-4', masonryItem: 'mb-2 md:mb-4' };
+    case 'large': return { grid: 'gap-8 md:gap-12', masonryCol: 'gap-8 md:gap-12', masonryItem: 'mb-8 md:mb-12' };
+    case 'medium':
+    default: return { grid: 'gap-4 md:gap-6', masonryCol: 'gap-4 md:gap-6', masonryItem: 'mb-4 md:mb-6' };
+  }
+}
+
+const getGridConfig = (layout, gap) => {
+  const spacing = getGapSize(gap);
+  switch (layout) {
+    case 'grid':
+      return {
+        isMasonry: false,
+        container: `grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ${spacing.grid} auto-rows-[200px] md:auto-rows-[280px]`,
+        getItemClass: () => "col-span-1 row-span-1"
+      };
+    case 'hero-strip':
+      return {
+        isMasonry: false,
+        container: `grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 ${spacing.grid} auto-rows-[120px] md:auto-rows-[200px]`,
+        getItemClass: (i) => i === 0 ? "col-span-full row-span-2 md:row-span-3" : "col-span-1 row-span-1"
+      };
+    case 'masonry':
+      return {
+        isMasonry: true,
+        container: `columns-1 sm:columns-2 md:columns-3 lg:columns-4 ${spacing.masonryCol}`,
+        getItemClass: () => `break-inside-avoid ${spacing.masonryItem} h-auto w-full inline-block`
+      };
+    case 'bento':
+    default:
+      const spans = [
+        'md:col-span-1 md:row-span-3 sm:col-span-1 sm:row-span-2',
+        'md:col-span-2 md:row-span-2 col-span-1 sm:col-span-2 sm:row-span-2',
+        'md:col-span-1 md:row-span-3 sm:col-span-2 sm:row-span-2',
+        'md:col-span-2 md:row-span-2 sm:col-span-1 sm:row-span-2',
+        'md:col-span-1 md:row-span-3 sm:col-span-1 sm:row-span-2',
+        'md:col-span-2 md:row-span-2 sm:col-span-1 sm:row-span-2',
+      ];
+      return {
+        isMasonry: false,
+        container: `grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 ${spacing.grid} auto-rows-[100px] md:auto-rows-[120px]`,
+        getItemClass: (i) => spans[i % spans.length]
+      };
+  }
+}
+
+const ProjectGallery = ({ mediaItems, title, description, layout = 'bento', gap = 'medium' }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [items, setItems] = useState(mediaItems);
   const [isDragging, setIsDragging] = useState(false);
@@ -248,6 +296,8 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
   useEffect(() => {
     setItems(mediaItems);
   }, [mediaItems]);
+
+  const config = getGridConfig(layout, gap);
 
   return (
     <div className="w-full">
@@ -290,7 +340,7 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
         ) : (
           <motion.div
             key="grid"
-            className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-[100px] md:auto-rows-[120px]"
+            className={config.container}
             initial="hidden"
             animate="visible"
             exit="hidden"
@@ -302,11 +352,13 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
               }
             }}
           >
-            {items.map((item, index) => (
+            {items.map((item, index) => {
+              const itemClass = config.getItemClass(index);
+              return (
               <motion.div
                 key={item.id}
                 layoutId={`media-${item.id}`}
-                className={`relative overflow-hidden rounded-2xl cursor-grab active:cursor-grabbing border border-border-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary ${item.span}`}
+                className={`relative overflow-hidden rounded-2xl cursor-grab active:cursor-grabbing border border-border-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary ${itemClass}`}
                 onClick={() => !isDragging && setSelectedItem(item)}
                 tabIndex={0}
                 onKeyDown={(e) => {
@@ -329,8 +381,8 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
                     }
                   }
                 }}
-                whileHover={{ scale: 1.02 }}
-                drag
+                whileHover={{ scale: config.isMasonry ? 1.01 : 1.02 }}
+                drag={!config.isMasonry}
                 dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
                 dragElastic={1}
                 onDragStart={() => setIsDragging(true)}
@@ -351,7 +403,7 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
               >
                 <MediaItem
                   item={item}
-                  className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-110"
+                  className={`w-full ${config.isMasonry ? 'h-auto object-cover' : 'absolute inset-0 h-full object-cover'} transition-transform duration-700 group-hover:scale-110`}
                   onClick={() => !isDragging && setSelectedItem(item)}
                 />
                 
@@ -361,16 +413,16 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
                   whileHover={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary-text/90 via-primary-text/20 to-transparent" />
-                  <h3 className="relative text-primary-text text-sm font-headline font-bold uppercase tracking-wider line-clamp-1">
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary-text/90 via-primary-text/20 to-transparent pointer-events-none" />
+                  <h3 className="relative text-primary-text text-sm font-headline font-bold uppercase tracking-wider line-clamp-1 pointer-events-none">
                     {item.title}
                   </h3>
-                  <p className="relative text-primary-text/60 text-[10px] font-body mt-1 line-clamp-2 uppercase tracking-[0.1em]">
+                  <p className="relative text-primary-text/60 text-[10px] font-body mt-1 line-clamp-2 uppercase tracking-[0.1em] pointer-events-none">
                     {item.desc}
                   </p>
                 </motion.div>
               </motion.div>
-            ))}
+            )})}
           </motion.div>
         )}
       </AnimatePresence>
@@ -378,4 +430,4 @@ const InteractiveBentoGallery = ({ mediaItems, title, description }) => {
   );
 };
 
-export default InteractiveBentoGallery;
+export default ProjectGallery;
